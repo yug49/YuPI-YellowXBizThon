@@ -7,6 +7,9 @@ const { createServer } = require("http");
 const { Server } = require("socket.io");
 require("dotenv").config();
 
+// Import Yellow Network integration
+const YellowClearNodeConnection = require("./yellow/clearnode-connection.js");
+
 const app = express();
 const server = createServer(app);
 
@@ -62,6 +65,15 @@ const connectDB = async () => {
 
 // Connect to database
 connectDB();
+
+// Initialize Yellow Network connection
+const yellowConnection = new YellowClearNodeConnection();
+yellowConnection.connect().catch((error) => {
+    console.error("Failed to initialize Yellow Network connection:", error);
+});
+
+// Make Yellow connection available to routes
+app.set("yellowConnection", yellowConnection);
 
 // Dutch Auction Logic
 class DutchAuctionManager {
@@ -193,9 +205,18 @@ const orderRoutes = require("./routes/orders");
 // Use routes
 app.use("/api/orders", orderRoutes);
 
-// Health check endpoint
-app.get("/health", (req, res) => {
-    res.status(200).json({ status: "OK", timestamp: new Date().toISOString() });
+// Health check endpoint with Yellow Network status
+app.get("/health", async (req, res) => {
+    const yellowStatus = await yellowConnection.healthCheck();
+
+    res.status(200).json({
+        status: "OK",
+        timestamp: new Date().toISOString(),
+        yellowNetwork: yellowStatus,
+        database:
+            mongoose.connection.readyState === 1 ? "connected" : "disconnected",
+        activeAuctions: DutchAuctionManager.getAllActiveAuctions().length,
+    });
 });
 
 // Error handling middleware

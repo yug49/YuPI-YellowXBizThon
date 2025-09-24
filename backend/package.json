@@ -11,12 +11,14 @@
         "@erc7824/nitrolite": "^0.3.0",
         "cors": "^2.8.5",
         "dotenv": "^16.3.1",
+        "ethers": "^5.7.2",
         "express": "^4.18.2",
         "express-rate-limit": "^6.10.0",
         "helmet": "^7.0.0",
         "mongoose": "^7.5.0",
         "socket.io": "^4.8.1",
-        "viem": "^2.37.7"
+        "viem": "^2.37.8",
+        "ws": "^8.14.2"
     },
     "devDependencies": {
         "nodemon": "^3.0.1"
