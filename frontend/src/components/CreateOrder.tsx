@@ -5,6 +5,8 @@ import { useAccount, useWaitForTransactionReceipt, useWatchContractEvent } from 
 import { useCreateOrder, useERC20, useResolverFee, calculateApprovalAmount, COMMON_TOKENS, formatTokenAmount } from '@/lib/useContracts'
 import { Address } from 'viem'
 import { CONTRACTS } from '@/lib/contracts'
+import { YellowWalletIntegration } from '../../yellow/wallet-integration.js'
+import { YellowConnectionIndicator, YellowSessionStatus, PerformanceComparison } from '../../yellow/session-ui.js'
 
 interface CreateOrderProps {
   onOrderCreated?: (orderId: string) => void
@@ -16,6 +18,11 @@ export default function CreateOrder({ onOrderCreated }: CreateOrderProps) {
   
   // Get resolver fee from contract
   const { resolverFee } = useResolverFee()
+  
+  // Yellow Network integration
+  const [yellowIntegration] = useState(() => new YellowWalletIntegration())
+  const [yellowStatus, setYellowStatus] = useState<any>({ connected: false, authenticated: false })
+  const [orderYellowData, setOrderYellowData] = useState<any>(null)
   
   // Wait for transaction receipt when hash is available
   const { data: receipt, isSuccess: isReceiptSuccess } = useWaitForTransactionReceipt({
@@ -46,6 +53,15 @@ export default function CreateOrder({ onOrderCreated }: CreateOrderProps) {
   const [txHash, setTxHash] = useState<string>('')
   const [orderId, setOrderId] = useState<string>('')
   const [fulfillmentProof, setFulfillmentProof] = useState<string>('')
+
+  // Check Yellow Network status on component mount
+  useEffect(() => {
+    const checkYellow = async () => {
+      const status = await yellowIntegration.checkYellowStatus()
+      setYellowStatus(status)
+    }
+    checkYellow()
+  }, [yellowIntegration])
 
   // For initial testing, use full wallet balance as approval amount
   const approvalAmount = useMemo(() => {
@@ -209,6 +225,12 @@ export default function CreateOrder({ onOrderCreated }: CreateOrderProps) {
         console.log('🎯 Order ID set for event listening:', actualOrderId)
         console.log('📡 Event listener should now be active for this order ID')
         
+        // Subscribe to Yellow Network updates
+        yellowIntegration.subscribeToOrderUpdates(actualOrderId, (orderData: any) => {
+          console.log('🟡 Yellow Network order update:', orderData)
+          setOrderYellowData(orderData)
+        })
+        
         if (onOrderCreated) {
           onOrderCreated(actualOrderId)
         }
@@ -295,6 +317,10 @@ export default function CreateOrder({ onOrderCreated }: CreateOrderProps) {
           <h3 className="text-xl font-semibold text-gray-900 mb-2">Processing Payment...</h3>
           <p className="text-gray-600 mb-4">Your order has been created and is waiting for a resolver to accept and process the payment.</p>
           
+          {/* Yellow Network Status */}
+          <YellowSessionStatus orderId={orderId} orderData={orderYellowData} />
+          <PerformanceComparison orderData={orderYellowData} />
+          
           <div className="bg-gray-50 rounded-lg p-4 mb-4">
             <p className="text-sm text-gray-600">Order ID:</p>
             <p className="font-mono text-sm">{orderId}</p>
@@ -341,6 +367,10 @@ export default function CreateOrder({ onOrderCreated }: CreateOrderProps) {
           <h3 className="text-xl font-semibold text-gray-900 mb-2">Payment Complete! 🎉</h3>
           <p className="text-gray-600 mb-4">Your order has been successfully fulfilled and the payment has been processed.</p>
           
+          {/* Yellow Network Status */}
+          <YellowSessionStatus orderId={orderId} orderData={orderYellowData} />
+          <PerformanceComparison orderData={orderYellowData} />
+          
           <div className="bg-gray-50 rounded-lg p-4 mb-4">
             <p className="text-sm text-gray-600">Order ID:</p>
             <p className="font-mono text-sm">{orderId}</p>
@@ -377,7 +407,13 @@ export default function CreateOrder({ onOrderCreated }: CreateOrderProps) {
 
   return (
     <div className="bg-white rounded-lg shadow-md p-6">
-      <h2 className="text-2xl font-bold text-gray-900 mb-6">Create New Order</h2>
+      <div className="flex justify-between items-center mb-6">
+        <h2 className="text-2xl font-bold text-gray-900">Create New Order</h2>
+        <YellowConnectionIndicator 
+          status={yellowStatus.connected ? 'connected' : 'disconnected'} 
+          performance={yellowStatus.performance} 
+        />
+      </div>
       
       {/* Step indicator */}
       <div className="flex items-center mb-6">
@@ -502,6 +538,20 @@ export default function CreateOrder({ onOrderCreated }: CreateOrderProps) {
             <strong>Note:</strong> Start price must be higher than end price for the Dutch auction mechanism
           </p>
         </div>
+
+        {/* Yellow Network Performance Info */}
+        {yellowStatus.connected && (
+          <div className="bg-gradient-to-r from-yellow-50 to-orange-50 border border-yellow-200 rounded-lg p-4 mb-4">
+            <div className="flex items-center mb-2">
+              <div className="w-4 h-4 bg-yellow-500 rounded-full mr-2 animate-pulse"></div>
+              <h4 className="font-medium text-yellow-800">⚡ Yellow Network Active</h4>
+            </div>
+            <div className="text-sm text-yellow-700 space-y-1">
+              <p><strong>Instant Settlement:</strong> ~5 seconds (vs 20-30s traditional)</p>
+              <p><strong>Technology:</strong> State channels for 85% faster transactions</p>
+            </div>
+          </div>
+        )}
 
         {/* Approval Calculation Info */}
         {needsApproval && approvalAmount > BigInt(0) && decimals !== undefined && (

@@ -75,6 +75,12 @@ yellowConnection.connect().catch((error) => {
 // Make Yellow connection available to routes
 app.set("yellowConnection", yellowConnection);
 
+// Initialize Yellow Session Manager for Phase 2.2 integration
+const YellowSessionManager = require("./yellow/session-manager");
+const yellowSessionManager = new YellowSessionManager(yellowConnection);
+app.set("yellowSessionManager", yellowSessionManager);
+console.log("⚡ Yellow Session Manager ready for instant settlements");
+
 // Dutch Auction Logic
 class DutchAuctionManager {
     static createAuction(orderId, startPrice, endPrice, duration = 5000) {
