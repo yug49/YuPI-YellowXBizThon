@@ -1,0 +1,3 @@
+{"level":"info","message":"Production monitor shutting down...","service":"yellow-network-integration","timestamp":"2025-09-24T23:32:14.050Z"}
+{"level":"info","memory":{"arrayBuffers":65822,"external":3355892,"heapTotal":11730944,"heapUsed":9948688,"rss":43974656},"message":"Metric: shutdown","metrics":{"averageResponseTime":0,"balanceAlerts":{},"errorCount":0,"errorRate":0,"lastYellowNetworkPing":null,"responseTimeSum":0,"totalRequests":0,"yellowNetworkStatus":"unknown"},"service":"yellow-network-integration","status":"healthy","timestamp":"2025-09-24T23:32:14.055Z","uptime":28.296660208,"version":"1.0.0"}
+{"level":"info","message":"Production monitor shutdown complete","service":"yellow-network-integration","timestamp":"2025-09-24T23:32:15.058Z"}

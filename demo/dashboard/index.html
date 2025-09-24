@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Yellow Network - Performance Dashboard</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: #fff;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            background: linear-gradient(45deg, #FFD700, #FFA500);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .stat-card {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 25px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.2);
+            transition: transform 0.3s ease;
+        }
+
+        .stat-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .stat-value {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            font-size: 1rem;
+            opacity: 0.8;
+        }
+
+        .improvement {
+            color: #4CAF50;
+        }
+
+        .yellow {
+            color: #FFD700;
+        }
+
+        .standard {
+            color: #FF6B6B;
+        }
+
+        .chart-container {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 30px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .chart-title {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        .comparison-bars {
+            display: flex;
+            justify-content: space-around;
+            align-items: flex-end;
+            height: 200px;
+            margin: 20px 0;
+        }
+
+        .bar {
+            width: 80px;
+            background: linear-gradient(to top, #FF6B6B, #FFD700);
+            border-radius: 10px 10px 0 0;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .bar.yellow {
+            background: linear-gradient(to top, #FFD700, #FFA500);
+            height: 15%;
+        }
+
+        .bar.standard {
+            background: linear-gradient(to top, #FF6B6B, #FF8E8E);
+            height: 100%;
+        }
+
+        .bar-label {
+            position: absolute;
+            bottom: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.9rem;
+            white-space: nowrap;
+        }
+
+        .bar-value {
+            position: absolute;
+            top: -25px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-weight: bold;
+            font-size: 0.9rem;
+        }
+
+        .live-orders {
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 30px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .order-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px;
+            margin: 10px 0;
+            background: rgba(255,255,255,0.1);
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+
+        .order-item:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .order-type {
+            padding: 5px 10px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .order-type.yellow {
+            background: #FFD700;
+            color: #000;
+        }
+
+        .order-type.standard {
+            background: #FF6B6B;
+            color: #fff;
+        }
+
+        .connection-status {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 10px 20px;
+            border-radius: 25px;
+            font-weight: bold;
+            font-size: 0.9rem;
+            backdrop-filter: blur(10px);
+        }
+
+        .connected {
+            background: rgba(76, 175, 80, 0.8);
+            color: white;
+        }
+
+        .disconnected {
+            background: rgba(244, 67, 54, 0.8);
+            color: white;
+        }
+
+        .demo-controls {
+            text-align: center;
+            margin: 30px 0;
+        }
+
+        .demo-btn {
+            background: linear-gradient(45deg, #FFD700, #FFA500);
+            color: #000;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 25px;
+            font-weight: bold;
+            cursor: pointer;
+            margin: 0 10px;
+            transition: all 0.3s ease;
+        }
+
+        .demo-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.4);
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+            100% { transform: scale(1); }
+        }
+
+        .processing {
+            animation: pulse 2s infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Yellow Network</h1>
+            <p>Instant Crypto-to-UPI Settlements - Live Performance Dashboard</p>
+        </div>
+
+        <div class="connection-status" id="connectionStatus">
+            <span id="statusText">Connecting...</span>
+        </div>
+
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-value improvement" id="performanceImprovement">85%</div>
+                <div class="stat-label">Performance Improvement</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value yellow" id="avgYellowTime">3.2s</div>
+                <div class="stat-label">Avg Yellow Network Time</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value standard" id="avgStandardTime">21.8s</div>
+                <div class="stat-label">Avg Standard Time</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="totalOrders">847</div>
+                <div class="stat-label">Total Orders Processed</div>
+            </div>
+        </div>
+
+        <div class="chart-container">
+            <div class="chart-title">Processing Time Comparison</div>
+            <div class="comparison-bars">
+                <div class="bar yellow">
+                    <div class="bar-value">~3s</div>
+                    <div class="bar-label">Yellow Network</div>
+                </div>
+                <div class="bar standard">
+                    <div class="bar-value">~22s</div>
+                    <div class="bar-label">Standard Process</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="demo-controls">
+            <button class="demo-btn" onclick="simulateOrder()">Simulate Yellow Order</button>
+            <button class="demo-btn" onclick="simulateStandardOrder()">Simulate Standard Order</button>
+            <button class="demo-btn" onclick="generateBulkDemo()">Generate Bulk Demo</button>
+        </div>
+
+        <div class="live-orders">
+            <h3 style="margin-bottom: 20px; text-align: center;">Live Order Processing</h3>
+            <div id="ordersList">
+                <!-- Orders will be populated here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let ws = null;
+        let isConnected = false;
+
+        function connectWebSocket() {
+            try {
+                ws = new WebSocket('ws://localhost:8081');
+                
+                ws.onopen = () => {
+                    isConnected = true;
+                    updateConnectionStatus(true);
+                    console.log('📊 Connected to performance dashboard');
+                };
+
+                ws.onmessage = (event) => {
+                    const message = JSON.parse(event.data);
+                    handleWebSocketMessage(message);
+                };
+
+                ws.onclose = () => {
+                    isConnected = false;
+                    updateConnectionStatus(false);
+                    console.log('📊 Disconnected from dashboard');
+                    // Retry connection after 3 seconds
+                    setTimeout(connectWebSocket, 3000);
+                };
+
+                ws.onerror = (error) => {
+                    console.error('WebSocket error:', error);
+                };
+            } catch (error) {
+                console.error('Failed to connect to WebSocket:', error);
+                setTimeout(connectWebSocket, 3000);
+            }
+        }
+
+        function updateConnectionStatus(connected) {
+            const statusElement = document.getElementById('connectionStatus');
+            const statusText = document.getElementById('statusText');
+            
+            if (connected) {
+                statusElement.className = 'connection-status connected';
+                statusText.textContent = '🟢 Connected';
+            } else {
+                statusElement.className = 'connection-status disconnected';
+                statusText.textContent = '🔴 Disconnected';
+            }
+        }
+
+        function handleWebSocketMessage(message) {
+            switch (message.type) {
+                case 'metrics':
+                    updateMetrics(message.data);
+                    break;
+                case 'order_update':
+                    addOrderToList(message.data);
+                    break;
+                case 'update':
+                    if (message.data && message.data.orderId) {
+                        addOrderToList(message.data);
+                    }
+                    break;
+            }
+        }
+
+        function updateMetrics(metrics) {
+            document.getElementById('performanceImprovement').textContent = 
+                `${metrics.performanceImprovement.toFixed(1)}%`;
+            document.getElementById('avgYellowTime').textContent = 
+                `${(metrics.averageYellowTime / 1000).toFixed(1)}s`;
+            document.getElementById('avgStandardTime').textContent = 
+                `${(metrics.averageStandardTime / 1000).toFixed(1)}s`;
+            document.getElementById('totalOrders').textContent = 
+                metrics.totalOrders.toLocaleString();
+        }
+
+        function addOrderToList(order) {
+            const ordersList = document.getElementById('ordersList');
+            const orderElement = document.createElement('div');
+            orderElement.className = 'order-item';
+            orderElement.id = `order-${order.orderId}`;
+            
+            const timeDisplay = order.processingTime ? 
+                `${(order.processingTime / 1000).toFixed(1)}s` : 'Processing...';
+            
+            const performanceGain = order.performanceGain > 0 ? 
+                `+${(order.performanceGain / 1000).toFixed(1)}s faster` : '';
+
+            orderElement.innerHTML = `
+                <div>
+                    <strong>${order.orderId}</strong><br>
+                    <small>₹${order.amount} → ${order.recipient}</small>
+                </div>
+                <div>
+                    <span class="order-type ${order.type}">${order.type.toUpperCase()}</span><br>
+                    <small>${timeDisplay} ${performanceGain}</small>
+                </div>
+            `;
+
+            if (order.status === 'processing') {
+                orderElement.classList.add('processing');
+            }
+
+            // Add to top of list
+            ordersList.insertBefore(orderElement, ordersList.firstChild);
+
+            // Keep only last 10 orders visible
+            while (ordersList.children.length > 10) {
+                ordersList.removeChild(ordersList.lastChild);
+            }
+
+            // Update status when completed
+            if (order.status === 'completed') {
+                setTimeout(() => {
+                    const existingOrder = document.getElementById(`order-${order.orderId}`);
+                    if (existingOrder) {
+                        existingOrder.classList.remove('processing');
+                    }
+                }, 100);
+            }
+        }
+
+        function simulateOrder() {
+            if (!isConnected) {
+                alert('Dashboard not connected. Please wait...');
+                return;
+            }
+
+            fetch('/api/simulate-order', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    amount: Math.floor(Math.random() * 3000) + 200,
+                    recipient: `demo${Math.floor(Math.random() * 1000)}@upi`,
+                    useYellow: true
+                })
+            }).then(response => response.json())
+              .then(data => {
+                  console.log('Order simulated:', data);
+              });
+        }
+
+        function simulateStandardOrder() {
+            if (!isConnected) {
+                alert('Dashboard not connected. Please wait...');
+                return;
+            }
+
+            fetch('/api/simulate-order', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    amount: Math.floor(Math.random() * 3000) + 200,
+                    recipient: `demo${Math.floor(Math.random() * 1000)}@upi`,
+                    useYellow: false
+                })
+            }).then(response => response.json())
+              .then(data => {
+                  console.log('Standard order simulated:', data);
+              });
+        }
+
+        function generateBulkDemo() {
+            // Simulate multiple orders quickly for demo effect
+            for (let i = 0; i < 5; i++) {
+                setTimeout(() => {
+                    if (Math.random() > 0.3) {
+                        simulateOrder();
+                    } else {
+                        simulateStandardOrder();
+                    }
+                }, i * 1000);
+            }
+        }
+
+        // Initialize dashboard
+        document.addEventListener('DOMContentLoaded', () => {
+            connectWebSocket();
+            
+            // Load initial metrics
+            fetch('/api/metrics')
+                .then(response => response.json())
+                .then(data => updateMetrics(data))
+                .catch(error => console.error('Failed to load metrics:', error));
+        });
+    </script>
+</body>
+</html>

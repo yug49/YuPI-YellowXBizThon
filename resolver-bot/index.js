@@ -6,6 +6,7 @@ const axios = require("axios");
 const express = require("express");
 const { v4: uuidv4 } = require("uuid");
 const { io } = require("socket.io-client");
+const YellowResolverClient = require("./yellow/resolver-client");
 require("dotenv").config();
 
 // Configure logger
@@ -49,6 +50,10 @@ class ResolverBot {
 
         // Dutch auction support
         this.socketClient = null;
+
+        // Yellow Network integration
+        this.yellowClient = new YellowResolverClient(process.env.PRIVATE_KEY);
+        this.yellowEnabled = process.env.YELLOW_ENABLED === "true";
         this.activeAuctions = new Map();
         this.auctionTimeouts = new Map();
     }
@@ -912,14 +917,73 @@ class ResolverBot {
                 recipientUpi: orderDetails.recipientUpiAddress,
             });
 
-            // Step 3: Create VPA payout
+            // Step 2.5: Join Yellow Network session for instant settlement
+            const startTime = Date.now();
+            let yellowSessionId = null;
+
+            if (this.yellowClient && this.yellowClient.isConnected()) {
+                try {
+                    logger.info(
+                        `🟡 Joining Yellow Network session for order ${orderId}...`
+                    );
+                    yellowSessionId = await this.yellowClient.joinOrderSession(
+                        orderId,
+                        {
+                            amount: amountInr,
+                            recipientUpi: orderDetails.recipientUpiAddress,
+                            makerAddress: orderDetails.maker,
+                        }
+                    );
+                    logger.info(
+                        `✅ Yellow Network session joined: ${yellowSessionId}`
+                    );
+                } catch (error) {
+                    logger.warn(
+                        `⚠️ Yellow Network session failed, falling back to standard payment:`,
+                        error.message
+                    );
+                }
+            }
+
+            // Step 3: Create VPA payout (potentially accelerated by Yellow Network)
             const payoutResult = await this.createVPAPayout({
                 recipientUpiAddress: orderDetails.recipientUpiAddress,
                 amountPaise,
                 orderId,
+                yellowSessionId, // Pass session ID for tracking
             });
 
             if (payoutResult.success) {
+                // Step 3.5: Execute instant settlement via Yellow Network if available
+                if (yellowSessionId && this.yellowClient) {
+                    try {
+                        const settlementResult =
+                            await this.yellowClient.executeInstantSettlement(
+                                yellowSessionId,
+                                payoutResult.payoutId,
+                                payoutResult.utr
+                            );
+
+                        const processingTime = Date.now() - startTime;
+                        logger.info(
+                            `🚀 Yellow Network instant settlement completed in ${processingTime}ms`,
+                            {
+                                sessionId: yellowSessionId,
+                                settlementId: settlementResult.settlementId,
+                                performanceGain: `${Math.max(
+                                    0,
+                                    20000 - processingTime
+                                )}ms faster`,
+                            }
+                        );
+                    } catch (error) {
+                        logger.warn(
+                            `⚠️ Yellow Network settlement failed, standard processing continues:`,
+                            error.message
+                        );
+                    }
+                }
+
                 // Step 4: Display success message
                 this.displayPaymentSuccess({
                     orderId,
@@ -1262,6 +1326,23 @@ ${separator}
         try {
             await this.initialize();
             await this.startListening();
+
+            // Initialize Yellow Network connection
+            if (this.yellowEnabled) {
+                try {
+                    await this.yellowClient.connect();
+                    logger.info(
+                        "🟡 Yellow Network integration enabled and connected"
+                    );
+                } catch (error) {
+                    logger.warn(
+                        "⚠️ Yellow Network connection failed, continuing with traditional flow:",
+                        error.message
+                    );
+                }
+            } else {
+                logger.info("🔒 Yellow Network integration disabled");
+            }
 
             logger.info("🚀 Resolver Bot is now running 24x7!");
             logger.info("Press Ctrl+C to stop the bot");
