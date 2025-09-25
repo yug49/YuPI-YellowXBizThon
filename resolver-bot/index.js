@@ -1334,6 +1334,12 @@ ${separator}
                     logger.info(
                         "🟡 Yellow Network integration enabled and connected"
                     );
+                    logger.info(
+                        "⚡ Ready for 85%+ faster crypto-to-UPI settlements"
+                    );
+                    logger.info(
+                        `🔗 ClearNode: ${process.env.YELLOW_CLEARNODE_URL}`
+                    );
                 } catch (error) {
                     logger.warn(
                         "⚠️ Yellow Network connection failed, continuing with traditional flow:",
@@ -1342,6 +1348,9 @@ ${separator}
                 }
             } else {
                 logger.info("🔒 Yellow Network integration disabled");
+                logger.info(
+                    "💡 Set YELLOW_ENABLED=true to enable instant settlements"
+                );
             }
 
             logger.info("🚀 Resolver Bot is now running 24x7!");
