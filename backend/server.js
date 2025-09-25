@@ -7,13 +7,11 @@ const { createServer } = require("http");
 const { Server } = require("socket.io");
 require("dotenv").config();
 
-// Import Yellow Network integration
 const YellowClearNodeConnection = require("./yellow/clearnode-connection.js");
 
 const app = express();
 const server = createServer(app);
 
-// Security middleware
 app.use(helmet());
 app.use(
     cors({
@@ -22,7 +20,6 @@ app.use(
     })
 );
 
-// Initialize Socket.IO with CORS
 const io = new Server(server, {
     cors: {
         origin: process.env.FRONTEND_URL || "http://localhost:3000",
@@ -31,201 +28,91 @@ const io = new Server(server, {
     },
 });
 
-// Store active Dutch auctions
-const activeAuctions = new Map();
-
-// Rate limiting
 const limiter = rateLimit({
-    windowMs: 15 * 60 * 1000, // 15 minutes
-    max: 100, // limit each IP to 100 requests per windowMs
+    windowMs: 15 * 60 * 1000,
+    max: 100,
 });
 app.use(limiter);
 
-// Body parsing middleware
 app.use(express.json({ limit: "10mb" }));
 app.use(express.urlencoded({ extended: true }));
 
-// MongoDB connection
 const connectDB = async () => {
     try {
         const conn = await mongoose.connect(
             process.env.MONGODB_URI ||
-                "mongodb://localhost:27017/orderprotocol",
+                "mongodb://localhost:27017/yelloworderprotocol",
             {
                 useNewUrlParser: true,
                 useUnifiedTopology: true,
             }
         );
-        console.log(`MongoDB Connected: ${conn.connection.host}`);
+        console.log("MongoDB Connected:", conn.connection.host);
     } catch (error) {
         console.error("Database connection error:", error);
         process.exit(1);
     }
 };
 
-// Connect to database
 connectDB();
 
-// Initialize Yellow Network connection
 const yellowConnection = new YellowClearNodeConnection();
 yellowConnection.connect().catch((error) => {
     console.error("Failed to initialize Yellow Network connection:", error);
 });
 
-// Make Yellow connection available to routes
 app.set("yellowConnection", yellowConnection);
 
-// Initialize Yellow Session Manager for Phase 2.2 integration
 const YellowSessionManager = require("./yellow/session-manager");
 const yellowSessionManager = new YellowSessionManager(yellowConnection);
 app.set("yellowSessionManager", yellowSessionManager);
 console.log("⚡ Yellow Session Manager ready for instant settlements");
 
-// Dutch Auction Logic
 class DutchAuctionManager {
-    static createAuction(orderId, startPrice, endPrice, duration = 5000) {
-        const auction = {
-            orderId,
-            startPrice: parseFloat(startPrice),
-            endPrice: parseFloat(endPrice),
-            currentPrice: parseFloat(startPrice),
-            startTime: Date.now(),
-            duration,
-            isActive: true,
-            intervalId: null,
-        };
-
-        // Price decay function - slower at start, faster towards end
-        const updatePrice = () => {
-            const elapsed = Date.now() - auction.startTime;
-            const progress = elapsed / auction.duration;
-
-            if (progress >= 1) {
-                // Auction ended
-                auction.currentPrice = auction.endPrice;
-                auction.isActive = false;
-                clearInterval(auction.intervalId);
-                activeAuctions.delete(orderId);
-
-                io.emit("auctionEnded", {
-                    orderId,
-                    finalPrice: auction.endPrice,
-                    reason: "timeout",
-                });
-
-                console.log(
-                    `🏁 Dutch auction for order ${orderId} ended (timeout)`
-                );
-                return;
-            }
-
-            // Non-linear price decrease (quadratic curve for faster decrease towards end)
-            const adjustedProgress = Math.pow(progress, 1.5);
-            const priceRange = auction.startPrice - auction.endPrice;
-            auction.currentPrice =
-                auction.startPrice - priceRange * adjustedProgress;
-
-            // Emit current price to all connected clients
-            io.emit("priceUpdate", {
-                orderId,
-                currentPrice: auction.currentPrice,
-                progress: progress * 100,
-                timeRemaining: auction.duration - elapsed,
-            });
-        };
-
-        // Update price every 50ms for smooth animation
-        auction.intervalId = setInterval(updatePrice, 50);
-        activeAuctions.set(orderId, auction);
-
-        console.log(
-            `🚀 Started Dutch auction for order ${orderId}: ${startPrice} → ${endPrice}`
-        );
-
-        // Emit auction started event
-        io.emit("auctionStarted", {
-            orderId,
-            startPrice: auction.startPrice,
-            endPrice: auction.endPrice,
-            duration: auction.duration,
-        });
-
-        return auction;
+    static createAuction() {
+        return null;
     }
-
-    static acceptAuction(orderId, acceptedPrice) {
-        const auction = activeAuctions.get(orderId);
-        if (!auction || !auction.isActive) {
-            return { success: false, message: "Auction not active" };
-        }
-
-        // Stop the auction
-        clearInterval(auction.intervalId);
-        auction.isActive = false;
-        auction.acceptedPrice = acceptedPrice;
-        activeAuctions.delete(orderId);
-
-        // Emit auction accepted event
-        io.emit("auctionAccepted", {
-            orderId,
-            acceptedPrice,
-            finalPrice: acceptedPrice,
-            reason: "accepted",
-        });
-
-        console.log(
-            `✅ Dutch auction for order ${orderId} accepted at price ${acceptedPrice}`
-        );
-
-        return { success: true, acceptedPrice };
+    static acceptAuction() {
+        return { success: false, message: "Dutch auction disabled" };
     }
-
-    static getActiveAuction(orderId) {
-        return activeAuctions.get(orderId);
+    static getActiveAuction() {
+        return null;
     }
-
     static getAllActiveAuctions() {
-        return Array.from(activeAuctions.values());
+        return [];
     }
 }
 
-// Socket.IO connection handling
 io.on("connection", (socket) => {
-    console.log(`🔌 Client connected: ${socket.id}`);
-
-    // Send current active auctions to newly connected client
-    socket.emit("activeAuctions", DutchAuctionManager.getAllActiveAuctions());
-
+    console.log("🔌 Client connected:", socket.id);
     socket.on("disconnect", () => {
-        console.log(`🔌 Client disconnected: ${socket.id}`);
+        console.log("🔌 Client disconnected:", socket.id);
     });
 });
 
-// Make DutchAuctionManager available to routes
 app.set("auctionManager", DutchAuctionManager);
 app.set("socketio", io);
 
-// Import routes
 const orderRoutes = require("./routes/orders");
-
-// Use routes
 app.use("/api/orders", orderRoutes);
 
-// Health check endpoint with Yellow Network status
 app.get("/health", async (req, res) => {
     const yellowStatus = await yellowConnection.healthCheck();
-
     res.status(200).json({
         status: "OK",
         timestamp: new Date().toISOString(),
         yellowNetwork: yellowStatus,
         database:
             mongoose.connection.readyState === 1 ? "connected" : "disconnected",
-        activeAuctions: DutchAuctionManager.getAllActiveAuctions().length,
+        instantFulfillment: true,
+        contracts: {
+            orderProtocol: process.env.ORDER_PROTOCOL_ADDRESS,
+            makerRegistry: process.env.MAKER_REGISTRY_ADDRESS,
+            resolverRegistry: process.env.RESOLVER_REGISTRY_ADDRESS,
+        },
     });
 });
 
-// Error handling middleware
 app.use((err, req, res, next) => {
     console.error(err.stack);
     res.status(500).json({
@@ -237,7 +124,6 @@ app.use((err, req, res, next) => {
     });
 });
 
-// 404 handler
 app.use("*", (req, res) => {
     res.status(404).json({ error: "Route not found" });
 });
@@ -245,9 +131,10 @@ app.use("*", (req, res) => {
 const PORT = process.env.PORT || 5001;
 
 server.listen(PORT, () => {
-    console.log(`Server running on port ${PORT}`);
-    console.log(`Environment: ${process.env.NODE_ENV || "development"}`);
-    console.log(`🔌 Socket.IO server initialized`);
+    console.log("🚀 Yellow Network Backend Server Started");
+    console.log("📍 Port:", PORT);
+    console.log("🔗 Contract:", process.env.ORDER_PROTOCOL_ADDRESS);
+    console.log("🟡 Yellow Network: Instant fulfillment enabled");
 });
 
 module.exports = app;

@@ -355,7 +355,7 @@ const DutchAuction: React.FC<DutchAuctionProps> = ({
                 {!hasStarted && isConnected && (
                     <div className="p-4 bg-blue-50 border border-blue-200 rounded-lg">
                         <p className="text-blue-700">
-                            📢 Click "Start Dutch Auction" to begin the 5-second price decline from{" "}
+                            📢 Click &quot;Start Dutch Auction&quot; to begin the 5-second price decline from{" "}
                             {formatPrice(startPrice)} to {formatPrice(endPrice)}.
                         </p>
                     </div>

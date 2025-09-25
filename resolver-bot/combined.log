@@ -1928,3 +1928,537 @@
 {"level":"info","message":"🚀 Resolver Bot is now running 24x7!","service":"resolver-bot","timestamp":"2025-09-24T19:33:52.728Z"}
 {"level":"info","message":"Press Ctrl+C to stop the bot","service":"resolver-bot","timestamp":"2025-09-24T19:33:52.728Z"}
 {"level":"info","message":"🔌 Connected to Dutch auction server","service":"resolver-bot","timestamp":"2025-09-24T19:33:52.732Z"}
+{"level":"info","message":"Initializing Resolver Bot...","service":"resolver-bot","timestamp":"2025-09-25T01:06:51.648Z"}
+{"level":"info","message":"Connected to network: base (Chain ID: 8453)","service":"resolver-bot","timestamp":"2025-09-25T01:06:55.577Z"}
+{"level":"info","message":"Wallet balance: 0.0 ETH","service":"resolver-bot","timestamp":"2025-09-25T01:06:55.579Z"}
+{"level":"warn","message":"Wallet has zero balance - may not be able to send transactions","service":"resolver-bot","timestamp":"2025-09-25T01:06:55.579Z"}
+{"level":"info","message":"🌐 Setting up callback server on port 3002...","service":"resolver-bot","timestamp":"2025-09-25T01:06:55.580Z"}
+{"level":"info","message":"✅ Callback server running on port 3002","service":"resolver-bot","timestamp":"2025-09-25T01:06:55.587Z"}
+{"level":"info","message":"📡 Registering callback URL: http://localhost:3002/callback/order-accepted","service":"resolver-bot","timestamp":"2025-09-25T01:06:55.587Z"}
+{"level":"info","message":"✅ Callback registered successfully with backend","service":"resolver-bot","timestamp":"2025-09-25T01:06:55.603Z"}
+{"level":"info","message":"🔌 Connecting to auction server at http://localhost:5001...","service":"resolver-bot","timestamp":"2025-09-25T01:06:55.603Z"}
+{"level":"info","message":"Resolver Bot initialized successfully","service":"resolver-bot","timestamp":"2025-09-25T01:06:55.607Z"}
+{"level":"info","message":"Wallet Address: 0x4bB31F2B83F43B2b1d6d7b000ed54f1A9Ff60c35","service":"resolver-bot","timestamp":"2025-09-25T01:06:55.608Z"}
+{"level":"info","message":"Contract Address: 0x3433E3504A625e9382D3270F0d68F814709C8a4F","service":"resolver-bot","timestamp":"2025-09-25T01:06:55.608Z"}
+{"level":"info","message":"Backend URL: http://localhost:5001","service":"resolver-bot","timestamp":"2025-09-25T01:06:55.609Z"}
+{"level":"info","message":"Callback Server: http://localhost:3002","service":"resolver-bot","timestamp":"2025-09-25T01:06:55.609Z"}
+{"level":"info","message":"RazorpayX Key ID: rzp_test_RKgUYMcFfhOJnh","service":"resolver-bot","timestamp":"2025-09-25T01:06:55.609Z"}
+{"level":"info","message":"RazorpayX configured: ✅","service":"resolver-bot","timestamp":"2025-09-25T01:06:55.609Z"}
+{"level":"info","message":"🎧 Starting to listen for OrderCreated events...","service":"resolver-bot","timestamp":"2025-09-25T01:06:55.609Z"}
+{"level":"info","message":"✅ Bot is now actively listening for events","service":"resolver-bot","timestamp":"2025-09-25T01:06:55.610Z"}
+{"level":"info","message":"🟡 Yellow Network integration enabled and connected","service":"resolver-bot","timestamp":"2025-09-25T01:06:55.612Z"}
+{"level":"info","message":"⚡ Ready for 85%+ faster crypto-to-UPI settlements","service":"resolver-bot","timestamp":"2025-09-25T01:06:55.612Z"}
+{"level":"info","message":"🔗 ClearNode: wss://clearnet.yellow.com/ws","service":"resolver-bot","timestamp":"2025-09-25T01:06:55.613Z"}
+{"level":"info","message":"🚀 Resolver Bot is now running 24x7!","service":"resolver-bot","timestamp":"2025-09-25T01:06:55.613Z"}
+{"level":"info","message":"Press Ctrl+C to stop the bot","service":"resolver-bot","timestamp":"2025-09-25T01:06:55.613Z"}
+{"level":"info","message":"🔌 Connected to Dutch auction server","service":"resolver-bot","timestamp":"2025-09-25T01:06:55.623Z"}
+{"level":"info","message":"Initializing Resolver Bot...","service":"resolver-bot","timestamp":"2025-09-25T01:48:38.147Z"}
+{"level":"info","message":"Connected to network: base (Chain ID: 8453)","service":"resolver-bot","timestamp":"2025-09-25T01:48:39.684Z"}
+{"level":"info","message":"Wallet balance: 0.0 ETH","service":"resolver-bot","timestamp":"2025-09-25T01:48:39.685Z"}
+{"level":"warn","message":"Wallet has zero balance - may not be able to send transactions","service":"resolver-bot","timestamp":"2025-09-25T01:48:39.686Z"}
+{"level":"info","message":"🌐 Setting up callback server on port 3002...","service":"resolver-bot","timestamp":"2025-09-25T01:48:39.686Z"}
+{"level":"info","message":"✅ Callback server running on port 3002","service":"resolver-bot","timestamp":"2025-09-25T01:48:39.694Z"}
+{"level":"info","message":"📡 Registering callback URL: http://localhost:3002/callback/order-accepted","service":"resolver-bot","timestamp":"2025-09-25T01:48:39.694Z"}
+{"level":"error","message":"Failed to register callback with backend:","service":"resolver-bot","timestamp":"2025-09-25T01:48:39.712Z"}
+{"level":"info","message":"🔌 Connecting to auction server at http://localhost:5001...","service":"resolver-bot","timestamp":"2025-09-25T01:48:39.712Z"}
+{"level":"info","message":"Resolver Bot initialized successfully","service":"resolver-bot","timestamp":"2025-09-25T01:48:39.717Z"}
+{"level":"info","message":"Wallet Address: 0x49b6bfF6EbA59A733b3b7701396E76e0fB975998","service":"resolver-bot","timestamp":"2025-09-25T01:48:39.717Z"}
+{"level":"info","message":"Contract Address: 0x3433E3504A625e9382D3270F0d68F814709C8a4F","service":"resolver-bot","timestamp":"2025-09-25T01:48:39.718Z"}
+{"level":"info","message":"Backend URL: http://localhost:5001","service":"resolver-bot","timestamp":"2025-09-25T01:48:39.718Z"}
+{"level":"info","message":"Callback Server: http://localhost:3002","service":"resolver-bot","timestamp":"2025-09-25T01:48:39.718Z"}
+{"level":"info","message":"RazorpayX Key ID: rzp_test_RKgUYMcFfhOJnh","service":"resolver-bot","timestamp":"2025-09-25T01:48:39.718Z"}
+{"level":"info","message":"RazorpayX configured: ✅","service":"resolver-bot","timestamp":"2025-09-25T01:48:39.718Z"}
+{"level":"info","message":"🎧 Starting to listen for OrderCreated events...","service":"resolver-bot","timestamp":"2025-09-25T01:48:39.718Z"}
+{"level":"info","message":"✅ Bot is now actively listening for events","service":"resolver-bot","timestamp":"2025-09-25T01:48:39.719Z"}
+{"level":"info","message":"🟡 Yellow Network integration enabled and connected","service":"resolver-bot","timestamp":"2025-09-25T01:48:39.722Z"}
+{"level":"info","message":"⚡ Ready for 85%+ faster crypto-to-UPI settlements","service":"resolver-bot","timestamp":"2025-09-25T01:48:39.722Z"}
+{"level":"info","message":"🔗 ClearNode: wss://clearnet.yellow.com/ws","service":"resolver-bot","timestamp":"2025-09-25T01:48:39.722Z"}
+{"level":"info","message":"🚀 Resolver Bot is now running 24x7!","service":"resolver-bot","timestamp":"2025-09-25T01:48:39.722Z"}
+{"level":"info","message":"Press Ctrl+C to stop the bot","service":"resolver-bot","timestamp":"2025-09-25T01:48:39.722Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:48:39.724Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:48:40.497Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:48:43.034Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:48:48.037Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:48:53.043Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:48:58.048Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:49:03.052Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:49:08.060Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:49:13.073Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:49:18.086Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:49:23.091Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:49:28.095Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:49:33.098Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:49:38.105Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:49:43.110Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:49:48.116Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:49:53.125Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:49:58.129Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:50:03.133Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:50:08.137Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:50:13.144Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:50:18.151Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:50:23.156Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:50:28.160Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:50:33.164Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:50:38.169Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:50:43.177Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:50:48.185Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:50:53.189Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:50:58.198Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:51:03.203Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:51:08.209Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:51:13.217Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:51:18.227Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:51:23.236Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:51:28.248Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:51:33.255Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:51:38.264Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:51:43.268Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:51:48.285Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:51:53.297Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:51:58.300Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:52:03.305Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:52:08.313Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:52:13.318Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:52:18.324Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:52:23.329Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:52:28.335Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:52:33.340Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:52:38.348Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:52:43.354Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:52:48.359Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:52:53.363Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:52:58.368Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:53:03.372Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:53:08.376Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:53:13.380Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:53:18.386Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:53:23.389Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:53:28.395Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:53:33.407Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:53:38.414Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:53:43.422Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:53:48.432Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:53:53.435Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:53:58.440Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:54:03.446Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:54:08.456Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:54:13.461Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:54:18.464Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:54:23.470Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:54:28.474Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:54:33.479Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:54:38.486Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:54:43.491Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:54:48.496Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:54:53.503Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:54:58.508Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:55:03.512Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:55:08.516Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:55:13.542Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:55:18.548Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:55:23.555Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:55:28.562Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:55:33.566Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:55:38.572Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:55:43.579Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:55:48.585Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:55:53.594Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:55:58.600Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:56:03.607Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:56:08.614Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:56:13.618Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:56:18.622Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:56:23.628Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:56:28.634Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:56:33.639Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:56:38.645Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:56:43.650Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:56:48.656Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:56:53.662Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:56:58.666Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:57:03.671Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:57:08.678Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:57:13.685Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:57:18.695Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:57:23.700Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:57:28.709Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:57:33.719Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:57:38.723Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:57:43.732Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:57:48.737Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:57:53.747Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:57:58.753Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:58:03.766Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:58:08.771Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:58:13.776Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:58:18.782Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:58:23.787Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:58:28.792Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:58:33.797Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:58:38.803Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:58:43.811Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:58:48.816Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:58:53.820Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:58:58.826Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:59:03.842Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:59:08.854Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:59:13.862Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:59:18.869Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:59:23.875Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:59:28.879Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:59:33.883Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:59:38.888Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:59:43.901Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:59:48.908Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:59:53.916Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T01:59:58.920Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T02:00:03.929Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T02:00:08.936Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T02:00:13.943Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T02:00:18.949Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T02:00:23.956Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T02:00:28.962Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T02:00:33.968Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T02:00:38.974Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T02:00:43.980Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T02:00:48.985Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T02:00:53.989Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T02:00:59.001Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T02:01:04.016Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T02:01:09.020Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T02:01:14.025Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T02:01:19.060Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T02:01:24.063Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T02:01:29.067Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T02:01:34.075Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T02:01:39.079Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T02:01:44.088Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T02:01:49.092Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T02:01:54.096Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T02:01:59.101Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T02:02:04.122Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T02:02:09.129Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T02:02:14.133Z"}
+{"level":"info","message":"Initializing Resolver Bot...","service":"resolver-bot","timestamp":"2025-09-25T02:06:18.100Z"}
+{"level":"info","message":"Connected to network: base (Chain ID: 8453)","service":"resolver-bot","timestamp":"2025-09-25T02:06:19.659Z"}
+{"level":"info","message":"Wallet balance: 0.0 ETH","service":"resolver-bot","timestamp":"2025-09-25T02:06:19.661Z"}
+{"level":"warn","message":"Wallet has zero balance - may not be able to send transactions","service":"resolver-bot","timestamp":"2025-09-25T02:06:19.661Z"}
+{"level":"info","message":"🌐 Setting up callback server on port 3002...","service":"resolver-bot","timestamp":"2025-09-25T02:06:19.662Z"}
+{"level":"info","message":"✅ Callback server running on port 3002","service":"resolver-bot","timestamp":"2025-09-25T02:06:19.669Z"}
+{"level":"info","message":"📡 Registering callback URL: http://localhost:3002/callback/order-accepted","service":"resolver-bot","timestamp":"2025-09-25T02:06:19.670Z"}
+{"level":"info","message":"✅ Callback registered successfully with backend","service":"resolver-bot","timestamp":"2025-09-25T02:06:19.686Z"}
+{"level":"info","message":"🔌 Connecting to auction server at http://localhost:5001...","service":"resolver-bot","timestamp":"2025-09-25T02:06:19.686Z"}
+{"level":"info","message":"Resolver Bot initialized successfully","service":"resolver-bot","timestamp":"2025-09-25T02:06:19.691Z"}
+{"level":"info","message":"Wallet Address: 0x49b6bfF6EbA59A733b3b7701396E76e0fB975998","service":"resolver-bot","timestamp":"2025-09-25T02:06:19.691Z"}
+{"level":"info","message":"Contract Address: 0x9FA36d121DcB21934008931fB717b1d7B38dDaaB","service":"resolver-bot","timestamp":"2025-09-25T02:06:19.692Z"}
+{"level":"info","message":"Backend URL: http://localhost:5001","service":"resolver-bot","timestamp":"2025-09-25T02:06:19.692Z"}
+{"level":"info","message":"Callback Server: http://localhost:3002","service":"resolver-bot","timestamp":"2025-09-25T02:06:19.692Z"}
+{"level":"info","message":"RazorpayX Key ID: rzp_test_RKgUYMcFfhOJnh","service":"resolver-bot","timestamp":"2025-09-25T02:06:19.692Z"}
+{"level":"info","message":"RazorpayX configured: ✅","service":"resolver-bot","timestamp":"2025-09-25T02:06:19.692Z"}
+{"level":"info","message":"🎧 Starting to listen for OrderCreated events...","service":"resolver-bot","timestamp":"2025-09-25T02:06:19.692Z"}
+{"level":"info","message":"✅ Bot is now actively listening for events","service":"resolver-bot","timestamp":"2025-09-25T02:06:19.693Z"}
+{"level":"info","message":"🟡 Yellow Network integration enabled and connected","service":"resolver-bot","timestamp":"2025-09-25T02:06:19.695Z"}
+{"level":"info","message":"⚡ Ready for 85%+ faster crypto-to-UPI settlements","service":"resolver-bot","timestamp":"2025-09-25T02:06:19.695Z"}
+{"level":"info","message":"🔗 ClearNode: wss://clearnet.yellow.com/ws","service":"resolver-bot","timestamp":"2025-09-25T02:06:19.695Z"}
+{"level":"info","message":"🚀 Resolver Bot is now running 24x7!","service":"resolver-bot","timestamp":"2025-09-25T02:06:19.695Z"}
+{"level":"info","message":"Press Ctrl+C to stop the bot","service":"resolver-bot","timestamp":"2025-09-25T02:06:19.695Z"}
+{"level":"info","message":"🔌 Connected to Dutch auction server","service":"resolver-bot","timestamp":"2025-09-25T02:06:19.707Z"}
+{"level":"info","message":"\n📴 Received shutdown signal...","service":"resolver-bot","timestamp":"2025-09-25T02:06:54.123Z"}
+{"level":"info","message":"Initializing Resolver Bot...","service":"resolver-bot","timestamp":"2025-09-25T02:08:52.441Z"}
+{"level":"info","message":"Connected to network: base (Chain ID: 8453)","service":"resolver-bot","timestamp":"2025-09-25T02:08:53.571Z"}
+{"level":"info","message":"Wallet balance: 0.0 ETH","service":"resolver-bot","timestamp":"2025-09-25T02:08:53.573Z"}
+{"level":"warn","message":"Wallet has zero balance - may not be able to send transactions","service":"resolver-bot","timestamp":"2025-09-25T02:08:53.574Z"}
+{"level":"info","message":"🌐 Setting up callback server on port 3002...","service":"resolver-bot","timestamp":"2025-09-25T02:08:53.574Z"}
+{"level":"info","message":"✅ Callback server running on port 3002","service":"resolver-bot","timestamp":"2025-09-25T02:08:53.581Z"}
+{"level":"info","message":"📡 Registering callback URL: http://localhost:3002/callback/order-accepted","service":"resolver-bot","timestamp":"2025-09-25T02:08:53.582Z"}
+{"level":"info","message":"✅ Callback registered successfully with backend","service":"resolver-bot","timestamp":"2025-09-25T02:08:53.596Z"}
+{"level":"info","message":"🔌 Connecting to auction server at http://localhost:5001...","service":"resolver-bot","timestamp":"2025-09-25T02:08:53.596Z"}
+{"level":"info","message":"Resolver Bot initialized successfully","service":"resolver-bot","timestamp":"2025-09-25T02:08:53.601Z"}
+{"level":"info","message":"Wallet Address: 0x49b6bfF6EbA59A733b3b7701396E76e0fB975998","service":"resolver-bot","timestamp":"2025-09-25T02:08:53.602Z"}
+{"level":"info","message":"Contract Address: 0x9FA36d121DcB21934008931fB717b1d7B38dDaaB","service":"resolver-bot","timestamp":"2025-09-25T02:08:53.602Z"}
+{"level":"info","message":"Backend URL: http://localhost:5001","service":"resolver-bot","timestamp":"2025-09-25T02:08:53.602Z"}
+{"level":"info","message":"Callback Server: http://localhost:3002","service":"resolver-bot","timestamp":"2025-09-25T02:08:53.602Z"}
+{"level":"info","message":"RazorpayX Key ID: rzp_test_RKgUYMcFfhOJnh","service":"resolver-bot","timestamp":"2025-09-25T02:08:53.603Z"}
+{"level":"info","message":"RazorpayX configured: ✅","service":"resolver-bot","timestamp":"2025-09-25T02:08:53.603Z"}
+{"level":"info","message":"🎧 Starting to listen for OrderCreated events...","service":"resolver-bot","timestamp":"2025-09-25T02:08:53.603Z"}
+{"level":"info","message":"✅ Bot is now actively listening for events","service":"resolver-bot","timestamp":"2025-09-25T02:08:53.604Z"}
+{"level":"info","message":"🔌 Connected to Dutch auction server","service":"resolver-bot","timestamp":"2025-09-25T02:08:53.609Z"}
+{"level":"info","message":"🟡 Yellow Network integration enabled and connected","service":"resolver-bot","timestamp":"2025-09-25T02:08:54.356Z"}
+{"level":"info","message":"⚡ Ready for 85%+ faster crypto-to-UPI settlements","service":"resolver-bot","timestamp":"2025-09-25T02:08:54.356Z"}
+{"level":"info","message":"🔗 ClearNode: wss://clearnet.yellow.com/ws","service":"resolver-bot","timestamp":"2025-09-25T02:08:54.356Z"}
+{"level":"info","message":"🚀 Resolver Bot is now running 24x7!","service":"resolver-bot","timestamp":"2025-09-25T02:08:54.356Z"}
+{"level":"info","message":"Press Ctrl+C to stop the bot","service":"resolver-bot","timestamp":"2025-09-25T02:08:54.356Z"}
+{"level":"info","message":"\n📴 Received shutdown signal...","service":"resolver-bot","timestamp":"2025-09-25T02:09:38.488Z"}
+{"level":"info","message":"Initializing Resolver Bot...","service":"resolver-bot","timestamp":"2025-09-25T02:10:02.267Z"}
+{"level":"info","message":"Connected to network: base (Chain ID: 8453)","service":"resolver-bot","timestamp":"2025-09-25T02:10:03.394Z"}
+{"level":"info","message":"Wallet balance: 0.0 ETH","service":"resolver-bot","timestamp":"2025-09-25T02:10:03.396Z"}
+{"level":"warn","message":"Wallet has zero balance - may not be able to send transactions","service":"resolver-bot","timestamp":"2025-09-25T02:10:03.396Z"}
+{"level":"info","message":"🌐 Setting up callback server on port 3002...","service":"resolver-bot","timestamp":"2025-09-25T02:10:03.397Z"}
+{"level":"info","message":"✅ Callback server running on port 3002","service":"resolver-bot","timestamp":"2025-09-25T02:10:03.404Z"}
+{"level":"info","message":"📡 Registering callback URL: http://localhost:3002/callback/order-accepted","service":"resolver-bot","timestamp":"2025-09-25T02:10:03.405Z"}
+{"level":"info","message":"✅ Callback registered successfully with backend","service":"resolver-bot","timestamp":"2025-09-25T02:10:03.420Z"}
+{"level":"info","message":"🔌 Connecting to auction server at http://localhost:5001...","service":"resolver-bot","timestamp":"2025-09-25T02:10:03.420Z"}
+{"level":"info","message":"Resolver Bot initialized successfully","service":"resolver-bot","timestamp":"2025-09-25T02:10:03.425Z"}
+{"level":"info","message":"Wallet Address: 0x49b6bfF6EbA59A733b3b7701396E76e0fB975998","service":"resolver-bot","timestamp":"2025-09-25T02:10:03.426Z"}
+{"level":"info","message":"Contract Address: 0x9FA36d121DcB21934008931fB717b1d7B38dDaaB","service":"resolver-bot","timestamp":"2025-09-25T02:10:03.427Z"}
+{"level":"info","message":"Backend URL: http://localhost:5001","service":"resolver-bot","timestamp":"2025-09-25T02:10:03.427Z"}
+{"level":"info","message":"Callback Server: http://localhost:3002","service":"resolver-bot","timestamp":"2025-09-25T02:10:03.427Z"}
+{"level":"info","message":"RazorpayX Key ID: rzp_test_RKgUYMcFfhOJnh","service":"resolver-bot","timestamp":"2025-09-25T02:10:03.427Z"}
+{"level":"info","message":"RazorpayX configured: ✅","service":"resolver-bot","timestamp":"2025-09-25T02:10:03.427Z"}
+{"level":"info","message":"🎧 Starting to listen for OrderCreated events...","service":"resolver-bot","timestamp":"2025-09-25T02:10:03.427Z"}
+{"level":"info","message":"✅ Bot is now actively listening for events","service":"resolver-bot","timestamp":"2025-09-25T02:10:03.428Z"}
+{"level":"info","message":"🔌 Connected to Dutch auction server","service":"resolver-bot","timestamp":"2025-09-25T02:10:03.436Z"}
+{"level":"info","message":"🟡 Yellow Network integration enabled and connected","service":"resolver-bot","timestamp":"2025-09-25T02:10:04.317Z"}
+{"level":"info","message":"⚡ Ready for 85%+ faster crypto-to-UPI settlements","service":"resolver-bot","timestamp":"2025-09-25T02:10:04.318Z"}
+{"level":"info","message":"🔗 ClearNode: wss://clearnet.yellow.com/ws","service":"resolver-bot","timestamp":"2025-09-25T02:10:04.318Z"}
+{"level":"info","message":"🚀 Resolver Bot is now running 24x7!","service":"resolver-bot","timestamp":"2025-09-25T02:10:04.318Z"}
+{"level":"info","message":"Press Ctrl+C to stop the bot","service":"resolver-bot","timestamp":"2025-09-25T02:10:04.318Z"}
+{"level":"info","message":"\n📴 Received shutdown signal...","service":"resolver-bot","timestamp":"2025-09-25T02:11:02.893Z"}
+{"level":"info","message":"Initializing Resolver Bot...","service":"resolver-bot","timestamp":"2025-09-25T02:12:26.682Z"}
+{"level":"info","message":"Connected to network: base (Chain ID: 8453)","service":"resolver-bot","timestamp":"2025-09-25T02:12:28.240Z"}
+{"level":"info","message":"Wallet balance: 0.0 ETH","service":"resolver-bot","timestamp":"2025-09-25T02:12:28.243Z"}
+{"level":"warn","message":"Wallet has zero balance - may not be able to send transactions","service":"resolver-bot","timestamp":"2025-09-25T02:12:28.243Z"}
+{"level":"info","message":"🌐 Setting up callback server on port 3002...","service":"resolver-bot","timestamp":"2025-09-25T02:12:28.244Z"}
+{"level":"info","message":"✅ Callback server running on port 3002","service":"resolver-bot","timestamp":"2025-09-25T02:12:28.250Z"}
+{"level":"info","message":"📡 Registering callback URL: http://localhost:3002/callback/order-accepted","service":"resolver-bot","timestamp":"2025-09-25T02:12:28.251Z"}
+{"level":"info","message":"✅ Callback registered successfully with backend","service":"resolver-bot","timestamp":"2025-09-25T02:12:28.269Z"}
+{"level":"info","message":"🔌 Connecting to auction server at http://localhost:5001...","service":"resolver-bot","timestamp":"2025-09-25T02:12:28.269Z"}
+{"level":"info","message":"Resolver Bot initialized successfully","service":"resolver-bot","timestamp":"2025-09-25T02:12:28.274Z"}
+{"level":"info","message":"Wallet Address: 0x49b6bfF6EbA59A733b3b7701396E76e0fB975998","service":"resolver-bot","timestamp":"2025-09-25T02:12:28.274Z"}
+{"level":"info","message":"Contract Address: 0x9FA36d121DcB21934008931fB717b1d7B38dDaaB","service":"resolver-bot","timestamp":"2025-09-25T02:12:28.274Z"}
+{"level":"info","message":"Backend URL: http://localhost:5001","service":"resolver-bot","timestamp":"2025-09-25T02:12:28.274Z"}
+{"level":"info","message":"Callback Server: http://localhost:3002","service":"resolver-bot","timestamp":"2025-09-25T02:12:28.274Z"}
+{"level":"info","message":"RazorpayX Key ID: rzp_test_RKgUYMcFfhOJnh","service":"resolver-bot","timestamp":"2025-09-25T02:12:28.274Z"}
+{"level":"info","message":"RazorpayX configured: ✅","service":"resolver-bot","timestamp":"2025-09-25T02:12:28.275Z"}
+{"level":"info","message":"🎧 Starting to listen for OrderCreated events...","service":"resolver-bot","timestamp":"2025-09-25T02:12:28.275Z"}
+{"level":"info","message":"✅ Bot is now actively listening for events","service":"resolver-bot","timestamp":"2025-09-25T02:12:28.275Z"}
+{"level":"info","message":"🔌 Connected to Dutch auction server","service":"resolver-bot","timestamp":"2025-09-25T02:12:28.283Z"}
+{"level":"info","message":"🟡 Yellow Network integration enabled and connected","service":"resolver-bot","timestamp":"2025-09-25T02:12:29.015Z"}
+{"level":"info","message":"⚡ Ready for 85%+ faster crypto-to-UPI settlements","service":"resolver-bot","timestamp":"2025-09-25T02:12:29.015Z"}
+{"level":"info","message":"🔗 ClearNode: wss://clearnet.yellow.com/ws","service":"resolver-bot","timestamp":"2025-09-25T02:12:29.016Z"}
+{"level":"info","message":"🚀 Resolver Bot is now running 24x7!","service":"resolver-bot","timestamp":"2025-09-25T02:12:29.016Z"}
+{"level":"info","message":"Press Ctrl+C to stop the bot","service":"resolver-bot","timestamp":"2025-09-25T02:12:29.016Z"}
+{"level":"info","message":"Initializing Resolver Bot...","service":"resolver-bot","timestamp":"2025-09-25T02:26:31.210Z"}
+{"level":"info","message":"Connected to network: base (Chain ID: 8453)","service":"resolver-bot","timestamp":"2025-09-25T02:26:32.328Z"}
+{"level":"info","message":"Wallet balance: 0.000079060126689062 ETH","service":"resolver-bot","timestamp":"2025-09-25T02:26:32.331Z"}
+{"level":"info","message":"🌐 Setting up callback server on port 3002...","service":"resolver-bot","timestamp":"2025-09-25T02:26:32.331Z"}
+{"level":"info","message":"✅ Callback server running on port 3002","service":"resolver-bot","timestamp":"2025-09-25T02:26:32.338Z"}
+{"level":"info","message":"📡 Registering callback URL: http://localhost:3002/callback/order-accepted","service":"resolver-bot","timestamp":"2025-09-25T02:26:32.339Z"}
+{"level":"info","message":"✅ Callback registered successfully with backend","service":"resolver-bot","timestamp":"2025-09-25T02:26:32.357Z"}
+{"level":"info","message":"🔌 Connecting to auction server at http://localhost:5001...","service":"resolver-bot","timestamp":"2025-09-25T02:26:32.357Z"}
+{"level":"info","message":"🔌 Connected to Dutch auction server","service":"resolver-bot","timestamp":"2025-09-25T02:26:32.415Z"}
+{"level":"info","message":"Resolver Bot initialized successfully","service":"resolver-bot","timestamp":"2025-09-25T02:26:33.177Z"}
+{"level":"info","message":"Wallet Address: 0x49b6bfF6EbA59A733b3b7701396E76e0fB975998","service":"resolver-bot","timestamp":"2025-09-25T02:26:33.178Z"}
+{"level":"info","message":"Contract Address: 0x9FA36d121DcB21934008931fB717b1d7B38dDaaB","service":"resolver-bot","timestamp":"2025-09-25T02:26:33.179Z"}
+{"level":"info","message":"Backend URL: http://localhost:5001","service":"resolver-bot","timestamp":"2025-09-25T02:26:33.179Z"}
+{"level":"info","message":"Callback Server: http://localhost:3002","service":"resolver-bot","timestamp":"2025-09-25T02:26:33.179Z"}
+{"level":"info","message":"RazorpayX Key ID: rzp_test_RKgUYMcFfhOJnh","service":"resolver-bot","timestamp":"2025-09-25T02:26:33.179Z"}
+{"level":"info","message":"RazorpayX configured: ✅","service":"resolver-bot","timestamp":"2025-09-25T02:26:33.180Z"}
+{"level":"info","message":"🎧 Starting to listen for OrderCreated events...","service":"resolver-bot","timestamp":"2025-09-25T02:26:33.180Z"}
+{"level":"info","message":"✅ Bot is now actively listening for events","service":"resolver-bot","timestamp":"2025-09-25T02:26:33.182Z"}
+{"level":"info","message":"🟡 Yellow Network integration enabled and connected","service":"resolver-bot","timestamp":"2025-09-25T02:26:33.931Z"}
+{"level":"info","message":"⚡ Ready for 85%+ faster crypto-to-UPI settlements","service":"resolver-bot","timestamp":"2025-09-25T02:26:33.931Z"}
+{"level":"info","message":"🔗 ClearNode: wss://clearnet.yellow.com/ws","service":"resolver-bot","timestamp":"2025-09-25T02:26:33.931Z"}
+{"level":"info","message":"🚀 Resolver Bot is now running 24x7!","service":"resolver-bot","timestamp":"2025-09-25T02:26:33.932Z"}
+{"level":"info","message":"Press Ctrl+C to stop the bot","service":"resolver-bot","timestamp":"2025-09-25T02:26:33.932Z"}
+{"level":"info","message":"Initializing Resolver Bot...","service":"resolver-bot","timestamp":"2025-09-25T02:27:15.923Z"}
+{"level":"info","message":"Connected to network: base (Chain ID: 8453)","service":"resolver-bot","timestamp":"2025-09-25T02:27:16.978Z"}
+{"level":"info","message":"Wallet balance: 0.000079060126689062 ETH","service":"resolver-bot","timestamp":"2025-09-25T02:27:16.979Z"}
+{"level":"info","message":"🌐 Setting up callback server on port 3002...","service":"resolver-bot","timestamp":"2025-09-25T02:27:16.980Z"}
+{"level":"info","message":"✅ Callback server running on port 3002","service":"resolver-bot","timestamp":"2025-09-25T02:27:16.988Z"}
+{"level":"info","message":"📡 Registering callback URL: http://localhost:3002/callback/order-accepted","service":"resolver-bot","timestamp":"2025-09-25T02:27:16.991Z"}
+{"level":"info","message":"✅ Callback registered successfully with backend","service":"resolver-bot","timestamp":"2025-09-25T02:27:17.017Z"}
+{"level":"info","message":"🔌 Connecting to auction server at http://localhost:5001...","service":"resolver-bot","timestamp":"2025-09-25T02:27:17.017Z"}
+{"level":"info","message":"🔌 Connected to Dutch auction server","service":"resolver-bot","timestamp":"2025-09-25T02:27:17.085Z"}
+{"level":"info","message":"Resolver Bot initialized successfully","service":"resolver-bot","timestamp":"2025-09-25T02:27:17.814Z"}
+{"level":"info","message":"Wallet Address: 0x49b6bfF6EbA59A733b3b7701396E76e0fB975998","service":"resolver-bot","timestamp":"2025-09-25T02:27:17.816Z"}
+{"level":"info","message":"Contract Address: 0x9FA36d121DcB21934008931fB717b1d7B38dDaaB","service":"resolver-bot","timestamp":"2025-09-25T02:27:17.816Z"}
+{"level":"info","message":"Backend URL: http://localhost:5001","service":"resolver-bot","timestamp":"2025-09-25T02:27:17.816Z"}
+{"level":"info","message":"Callback Server: http://localhost:3002","service":"resolver-bot","timestamp":"2025-09-25T02:27:17.817Z"}
+{"level":"info","message":"RazorpayX Key ID: rzp_test_RKgUYMcFfhOJnh","service":"resolver-bot","timestamp":"2025-09-25T02:27:17.817Z"}
+{"level":"info","message":"RazorpayX configured: ✅","service":"resolver-bot","timestamp":"2025-09-25T02:27:17.817Z"}
+{"level":"info","message":"🎧 Starting to listen for OrderCreated events...","service":"resolver-bot","timestamp":"2025-09-25T02:27:17.817Z"}
+{"level":"info","message":"✅ Bot is now actively listening for events","service":"resolver-bot","timestamp":"2025-09-25T02:27:17.819Z"}
+{"level":"info","message":"🟡 Yellow Network integration enabled and connected","service":"resolver-bot","timestamp":"2025-09-25T02:27:18.605Z"}
+{"level":"info","message":"⚡ Ready for 85%+ faster crypto-to-UPI settlements","service":"resolver-bot","timestamp":"2025-09-25T02:27:18.606Z"}
+{"level":"info","message":"🔗 ClearNode: wss://clearnet.yellow.com/ws","service":"resolver-bot","timestamp":"2025-09-25T02:27:18.606Z"}
+{"level":"info","message":"🚀 Resolver Bot is now running 24x7!","service":"resolver-bot","timestamp":"2025-09-25T02:27:18.606Z"}
+{"level":"info","message":"Press Ctrl+C to stop the bot","service":"resolver-bot","timestamp":"2025-09-25T02:27:18.606Z"}
+{"level":"info","message":"\n📴 Received termination signal...","service":"resolver-bot","timestamp":"2025-09-25T02:30:57.801Z"}
+{"level":"info","message":"Initializing Resolver Bot...","service":"resolver-bot","timestamp":"2025-09-25T02:31:20.000Z"}
+{"level":"info","message":"Connected to network: base (Chain ID: 8453)","service":"resolver-bot","timestamp":"2025-09-25T02:31:21.019Z"}
+{"level":"info","message":"Wallet balance: 0.000079060126689062 ETH","service":"resolver-bot","timestamp":"2025-09-25T02:31:21.021Z"}
+{"level":"info","message":"🌐 Setting up callback server on port 3002...","service":"resolver-bot","timestamp":"2025-09-25T02:31:21.021Z"}
+{"level":"info","message":"✅ Callback server running on port 3002","service":"resolver-bot","timestamp":"2025-09-25T02:31:21.027Z"}
+{"level":"info","message":"📡 Registering callback URL: http://localhost:3002/callback/order-accepted","service":"resolver-bot","timestamp":"2025-09-25T02:31:21.027Z"}
+{"level":"info","message":"✅ Callback registered successfully with backend","service":"resolver-bot","timestamp":"2025-09-25T02:31:21.042Z"}
+{"level":"info","message":"🔌 Connecting to auction server at http://localhost:5001...","service":"resolver-bot","timestamp":"2025-09-25T02:31:21.042Z"}
+{"level":"info","message":"🔌 Connected to Dutch auction server","service":"resolver-bot","timestamp":"2025-09-25T02:31:21.114Z"}
+{"level":"info","message":"Resolver Bot initialized successfully","service":"resolver-bot","timestamp":"2025-09-25T02:31:21.921Z"}
+{"level":"info","message":"Wallet Address: 0x49b6bfF6EbA59A733b3b7701396E76e0fB975998","service":"resolver-bot","timestamp":"2025-09-25T02:31:21.922Z"}
+{"level":"info","message":"Contract Address: 0x9FA36d121DcB21934008931fB717b1d7B38dDaaB","service":"resolver-bot","timestamp":"2025-09-25T02:31:21.922Z"}
+{"level":"info","message":"Backend URL: http://localhost:5001","service":"resolver-bot","timestamp":"2025-09-25T02:31:21.923Z"}
+{"level":"info","message":"Callback Server: http://localhost:3002","service":"resolver-bot","timestamp":"2025-09-25T02:31:21.923Z"}
+{"level":"info","message":"RazorpayX Key ID: rzp_test_RKgUYMcFfhOJnh","service":"resolver-bot","timestamp":"2025-09-25T02:31:21.923Z"}
+{"level":"info","message":"RazorpayX configured: ✅","service":"resolver-bot","timestamp":"2025-09-25T02:31:21.923Z"}
+{"level":"info","message":"🎧 Starting to listen for OrderCreated events...","service":"resolver-bot","timestamp":"2025-09-25T02:31:21.923Z"}
+{"level":"info","message":"✅ Bot is now actively listening for events","service":"resolver-bot","timestamp":"2025-09-25T02:31:21.926Z"}
+{"level":"info","message":"🟡 Yellow Network integration enabled and connected","service":"resolver-bot","timestamp":"2025-09-25T02:31:22.725Z"}
+{"level":"info","message":"⚡ Ready for 85%+ faster crypto-to-UPI settlements","service":"resolver-bot","timestamp":"2025-09-25T02:31:22.725Z"}
+{"level":"info","message":"🔗 ClearNode: wss://clearnet.yellow.com/ws","service":"resolver-bot","timestamp":"2025-09-25T02:31:22.726Z"}
+{"level":"info","message":"🚀 Resolver Bot is now running 24x7!","service":"resolver-bot","timestamp":"2025-09-25T02:31:22.726Z"}
+{"level":"info","message":"Press Ctrl+C to stop the bot","service":"resolver-bot","timestamp":"2025-09-25T02:31:22.726Z"}
+{"level":"info","message":"\n📴 Received shutdown signal...","service":"resolver-bot","timestamp":"2025-09-25T02:31:55.130Z"}
+{"level":"info","message":"Initializing Resolver Bot...","service":"resolver-bot","timestamp":"2025-09-25T02:33:54.052Z"}
+{"level":"info","message":"Connected to network: base (Chain ID: 8453)","service":"resolver-bot","timestamp":"2025-09-25T02:33:57.044Z"}
+{"level":"info","message":"Wallet balance: 0.000079060126689062 ETH","service":"resolver-bot","timestamp":"2025-09-25T02:33:57.045Z"}
+{"level":"info","message":"🌐 Setting up callback server on port 3002...","service":"resolver-bot","timestamp":"2025-09-25T02:33:57.046Z"}
+{"level":"info","message":"✅ Callback server running on port 3002","service":"resolver-bot","timestamp":"2025-09-25T02:33:57.048Z"}
+{"level":"info","message":"📡 Registering callback URL: http://localhost:3002/callback/order-accepted","service":"resolver-bot","timestamp":"2025-09-25T02:33:57.049Z"}
+{"level":"info","message":"✅ Callback registered successfully with backend","service":"resolver-bot","timestamp":"2025-09-25T02:33:57.060Z"}
+{"level":"info","message":"🔌 Connecting to auction server at http://localhost:5001...","service":"resolver-bot","timestamp":"2025-09-25T02:33:57.060Z"}
+{"level":"info","message":"🔌 Connected to Dutch auction server","service":"resolver-bot","timestamp":"2025-09-25T02:33:57.111Z"}
+{"level":"info","message":"Resolver Bot initialized successfully","service":"resolver-bot","timestamp":"2025-09-25T02:33:58.575Z"}
+{"level":"info","message":"Wallet Address: 0x49b6bfF6EbA59A733b3b7701396E76e0fB975998","service":"resolver-bot","timestamp":"2025-09-25T02:33:58.578Z"}
+{"level":"info","message":"Contract Address: 0x9FA36d121DcB21934008931fB717b1d7B38dDaaB","service":"resolver-bot","timestamp":"2025-09-25T02:33:58.579Z"}
+{"level":"info","message":"Backend URL: http://localhost:5001","service":"resolver-bot","timestamp":"2025-09-25T02:33:58.579Z"}
+{"level":"info","message":"Callback Server: http://localhost:3002","service":"resolver-bot","timestamp":"2025-09-25T02:33:58.579Z"}
+{"level":"info","message":"RazorpayX Key ID: rzp_test_RKgUYMcFfhOJnh","service":"resolver-bot","timestamp":"2025-09-25T02:33:58.579Z"}
+{"level":"info","message":"RazorpayX configured: ✅","service":"resolver-bot","timestamp":"2025-09-25T02:33:58.579Z"}
+{"level":"info","message":"🎧 Starting to listen for OrderCreated events...","service":"resolver-bot","timestamp":"2025-09-25T02:33:58.580Z"}
+{"level":"info","message":"✅ Bot is now actively listening for events","service":"resolver-bot","timestamp":"2025-09-25T02:33:58.582Z"}
+{"level":"info","message":"🟡 Yellow Network integration enabled and connected","service":"resolver-bot","timestamp":"2025-09-25T02:33:59.614Z"}
+{"level":"info","message":"⚡ Ready for 85%+ faster crypto-to-UPI settlements","service":"resolver-bot","timestamp":"2025-09-25T02:33:59.617Z"}
+{"level":"info","message":"🔗 ClearNode: wss://clearnet.yellow.com/ws","service":"resolver-bot","timestamp":"2025-09-25T02:33:59.617Z"}
+{"level":"info","message":"🚀 Resolver Bot is now running 24x7!","service":"resolver-bot","timestamp":"2025-09-25T02:33:59.617Z"}
+{"level":"info","message":"Press Ctrl+C to stop the bot","service":"resolver-bot","timestamp":"2025-09-25T02:33:59.617Z"}
+{"level":"warn","message":"🔌 Disconnected from Dutch auction server","service":"resolver-bot","timestamp":"2025-09-25T02:35:25.842Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T02:35:26.647Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T02:35:27.761Z"}
+{"level":"info","message":"🔌 Connected to Dutch auction server","service":"resolver-bot","timestamp":"2025-09-25T02:35:29.997Z"}
+{"level":"info","message":"Initializing Resolver Bot...","service":"resolver-bot","timestamp":"2025-09-25T02:35:35.099Z"}
+{"level":"info","message":"Connected to network: base (Chain ID: 8453)","service":"resolver-bot","timestamp":"2025-09-25T02:35:37.300Z"}
+{"level":"info","message":"\n📴 Received termination signal...","service":"resolver-bot","timestamp":"2025-09-25T02:36:37.411Z"}
+{"level":"info","message":"Initializing Resolver Bot...","service":"resolver-bot","timestamp":"2025-09-25T02:37:09.254Z"}
+{"level":"info","message":"Connected to network: base (Chain ID: 8453)","service":"resolver-bot","timestamp":"2025-09-25T02:37:11.832Z"}
+{"level":"info","message":"Wallet balance: 0.000079060126689062 ETH","service":"resolver-bot","timestamp":"2025-09-25T02:37:11.834Z"}
+{"level":"info","message":"🌐 Setting up callback server on port 3002...","service":"resolver-bot","timestamp":"2025-09-25T02:37:11.835Z"}
+{"level":"info","message":"✅ Callback server running on port 3002","service":"resolver-bot","timestamp":"2025-09-25T02:37:11.841Z"}
+{"level":"info","message":"📡 Registering callback URL: http://localhost:3002/callback/order-accepted","service":"resolver-bot","timestamp":"2025-09-25T02:37:11.842Z"}
+{"level":"info","message":"✅ Callback registered successfully with backend","service":"resolver-bot","timestamp":"2025-09-25T02:37:11.872Z"}
+{"level":"info","message":"🔌 Connecting to auction server at http://localhost:5001...","service":"resolver-bot","timestamp":"2025-09-25T02:37:11.873Z"}
+{"level":"info","message":"🔌 Connected to Dutch auction server","service":"resolver-bot","timestamp":"2025-09-25T02:37:11.927Z"}
+{"level":"info","message":"Resolver Bot initialized successfully","service":"resolver-bot","timestamp":"2025-09-25T02:37:13.068Z"}
+{"level":"info","message":"Wallet Address: 0x49b6bfF6EbA59A733b3b7701396E76e0fB975998","service":"resolver-bot","timestamp":"2025-09-25T02:37:13.070Z"}
+{"level":"info","message":"Contract Address: 0x9FA36d121DcB21934008931fB717b1d7B38dDaaB","service":"resolver-bot","timestamp":"2025-09-25T02:37:13.070Z"}
+{"level":"info","message":"Backend URL: http://localhost:5001","service":"resolver-bot","timestamp":"2025-09-25T02:37:13.071Z"}
+{"level":"info","message":"Callback Server: http://localhost:3002","service":"resolver-bot","timestamp":"2025-09-25T02:37:13.072Z"}
+{"level":"info","message":"RazorpayX Key ID: rzp_test_RKgUYMcFfhOJnh","service":"resolver-bot","timestamp":"2025-09-25T02:37:13.072Z"}
+{"level":"info","message":"RazorpayX configured: ✅","service":"resolver-bot","timestamp":"2025-09-25T02:37:13.072Z"}
+{"level":"info","message":"🎧 Starting to listen for OrderCreated events...","service":"resolver-bot","timestamp":"2025-09-25T02:37:13.072Z"}
+{"level":"info","message":"✅ Bot is now actively listening for events","service":"resolver-bot","timestamp":"2025-09-25T02:37:13.074Z"}
+{"level":"info","message":"🟡 Yellow Network integration enabled and connected","service":"resolver-bot","timestamp":"2025-09-25T02:37:14.183Z"}
+{"level":"info","message":"⚡ Ready for 85%+ faster crypto-to-UPI settlements","service":"resolver-bot","timestamp":"2025-09-25T02:37:14.184Z"}
+{"level":"info","message":"🔗 ClearNode: wss://clearnet.yellow.com/ws","service":"resolver-bot","timestamp":"2025-09-25T02:37:14.185Z"}
+{"level":"info","message":"🚀 Resolver Bot is now running 24x7!","service":"resolver-bot","timestamp":"2025-09-25T02:37:14.185Z"}
+{"level":"info","message":"Press Ctrl+C to stop the bot","service":"resolver-bot","timestamp":"2025-09-25T02:37:14.185Z"}
+{"level":"info","message":"\n📴 Received shutdown signal...","service":"resolver-bot","timestamp":"2025-09-25T02:42:57.495Z"}
+{"level":"info","message":"Initializing Resolver Bot...","service":"resolver-bot","timestamp":"2025-09-25T02:55:55.968Z"}
+{"level":"info","message":"Connected to network: base (Chain ID: 8453)","service":"resolver-bot","timestamp":"2025-09-25T02:55:57.080Z"}
+{"level":"info","message":"Wallet balance: 0.000879060126689062 ETH","service":"resolver-bot","timestamp":"2025-09-25T02:55:57.082Z"}
+{"level":"info","message":"🌐 Setting up callback server on port 3002...","service":"resolver-bot","timestamp":"2025-09-25T02:55:57.083Z"}
+{"level":"info","message":"✅ Callback server running on port 3002","service":"resolver-bot","timestamp":"2025-09-25T02:55:57.090Z"}
+{"level":"info","message":"📡 Registering callback URL: http://localhost:3002/callback/order-accepted","service":"resolver-bot","timestamp":"2025-09-25T02:55:57.091Z"}
+{"level":"info","message":"✅ Callback registered successfully with backend","service":"resolver-bot","timestamp":"2025-09-25T02:55:57.110Z"}
+{"level":"info","message":"🔌 Connecting to auction server at http://localhost:5001...","service":"resolver-bot","timestamp":"2025-09-25T02:55:57.110Z"}
+{"level":"info","message":"🔌 Connected to Dutch auction server","service":"resolver-bot","timestamp":"2025-09-25T02:55:57.166Z"}
+{"level":"info","message":"Resolver Bot initialized successfully","service":"resolver-bot","timestamp":"2025-09-25T02:55:58.179Z"}
+{"level":"info","message":"Wallet Address: 0x49b6bfF6EbA59A733b3b7701396E76e0fB975998","service":"resolver-bot","timestamp":"2025-09-25T02:55:58.180Z"}
+{"level":"info","message":"Contract Address: 0x9FA36d121DcB21934008931fB717b1d7B38dDaaB","service":"resolver-bot","timestamp":"2025-09-25T02:55:58.180Z"}
+{"level":"info","message":"Backend URL: http://localhost:5001","service":"resolver-bot","timestamp":"2025-09-25T02:55:58.181Z"}
+{"level":"info","message":"Callback Server: http://localhost:3002","service":"resolver-bot","timestamp":"2025-09-25T02:55:58.181Z"}
+{"level":"info","message":"RazorpayX Key ID: rzp_test_RKgUYMcFfhOJnh","service":"resolver-bot","timestamp":"2025-09-25T02:55:58.181Z"}
+{"level":"info","message":"RazorpayX configured: ✅","service":"resolver-bot","timestamp":"2025-09-25T02:55:58.182Z"}
+{"level":"info","message":"🎧 Starting to listen for OrderCreated events...","service":"resolver-bot","timestamp":"2025-09-25T02:55:58.182Z"}
+{"level":"info","message":"✅ Bot is now actively listening for events","service":"resolver-bot","timestamp":"2025-09-25T02:55:58.183Z"}
+{"level":"info","message":"🟡 Yellow Network integration enabled and connected","service":"resolver-bot","timestamp":"2025-09-25T02:55:59.199Z"}
+{"level":"info","message":"⚡ Ready for 85%+ faster crypto-to-UPI settlements","service":"resolver-bot","timestamp":"2025-09-25T02:55:59.199Z"}
+{"level":"info","message":"🔗 ClearNode: wss://clearnet.yellow.com/ws","service":"resolver-bot","timestamp":"2025-09-25T02:55:59.200Z"}
+{"level":"info","message":"🚀 Resolver Bot is now running 24x7!","service":"resolver-bot","timestamp":"2025-09-25T02:55:59.200Z"}
+{"level":"info","message":"Press Ctrl+C to stop the bot","service":"resolver-bot","timestamp":"2025-09-25T02:55:59.200Z"}
+{"level":"info","message":"Initializing Resolver Bot...","service":"resolver-bot","timestamp":"2025-09-25T03:08:59.483Z"}
+{"level":"info","message":"Connected to network: base (Chain ID: 8453)","service":"resolver-bot","timestamp":"2025-09-25T03:09:00.400Z"}
+{"level":"info","message":"Wallet balance: 0.000868734053874821 ETH","service":"resolver-bot","timestamp":"2025-09-25T03:09:00.402Z"}
+{"level":"info","message":"🌐 Setting up callback server on port 3002...","service":"resolver-bot","timestamp":"2025-09-25T03:09:00.403Z"}
+{"level":"info","message":"✅ Callback server running on port 3002","service":"resolver-bot","timestamp":"2025-09-25T03:09:00.409Z"}
+{"level":"info","message":"📡 Registering callback URL: http://localhost:3002/callback/order-accepted","service":"resolver-bot","timestamp":"2025-09-25T03:09:00.410Z"}
+{"level":"info","message":"✅ Callback registered successfully with backend","service":"resolver-bot","timestamp":"2025-09-25T03:09:00.427Z"}
+{"level":"info","message":"🔌 Connecting to auction server at http://localhost:5001...","service":"resolver-bot","timestamp":"2025-09-25T03:09:00.428Z"}
+{"level":"info","message":"🔌 Connected to Dutch auction server","service":"resolver-bot","timestamp":"2025-09-25T03:09:00.488Z"}
+{"level":"info","message":"Resolver Bot initialized successfully","service":"resolver-bot","timestamp":"2025-09-25T03:09:01.212Z"}
+{"level":"info","message":"Wallet Address: 0x49b6bfF6EbA59A733b3b7701396E76e0fB975998","service":"resolver-bot","timestamp":"2025-09-25T03:09:01.213Z"}
+{"level":"info","message":"Contract Address: 0x59B3b04640220F167db383296C259A452Be42b3B","service":"resolver-bot","timestamp":"2025-09-25T03:09:01.213Z"}
+{"level":"info","message":"Backend URL: http://localhost:5001","service":"resolver-bot","timestamp":"2025-09-25T03:09:01.214Z"}
+{"level":"info","message":"Callback Server: http://localhost:3002","service":"resolver-bot","timestamp":"2025-09-25T03:09:01.214Z"}
+{"level":"info","message":"RazorpayX Key ID: rzp_test_RKgUYMcFfhOJnh","service":"resolver-bot","timestamp":"2025-09-25T03:09:01.214Z"}
+{"level":"info","message":"RazorpayX configured: ✅","service":"resolver-bot","timestamp":"2025-09-25T03:09:01.214Z"}
+{"level":"info","message":"🎧 Starting to listen for OrderCreated events...","service":"resolver-bot","timestamp":"2025-09-25T03:09:01.214Z"}
+{"level":"info","message":"✅ Bot is now actively listening for events","service":"resolver-bot","timestamp":"2025-09-25T03:09:01.216Z"}
+{"level":"info","message":"🟡 Yellow Network integration enabled and connected","service":"resolver-bot","timestamp":"2025-09-25T03:09:02.196Z"}
+{"level":"info","message":"⚡ Ready for 85%+ faster crypto-to-UPI settlements","service":"resolver-bot","timestamp":"2025-09-25T03:09:02.197Z"}
+{"level":"info","message":"🔗 ClearNode: wss://clearnet.yellow.com/ws","service":"resolver-bot","timestamp":"2025-09-25T03:09:02.197Z"}
+{"level":"info","message":"🚀 Resolver Bot is now running 24x7!","service":"resolver-bot","timestamp":"2025-09-25T03:09:02.197Z"}
+{"level":"info","message":"Press Ctrl+C to stop the bot","service":"resolver-bot","timestamp":"2025-09-25T03:09:02.197Z"}
+{"level":"info","message":"Initializing Resolver Bot...","service":"resolver-bot","timestamp":"2025-09-25T03:09:21.333Z"}
+{"level":"info","message":"Connected to network: base (Chain ID: 8453)","service":"resolver-bot","timestamp":"2025-09-25T03:09:23.052Z"}
+{"level":"info","message":"Initializing Resolver Bot...","service":"resolver-bot","timestamp":"2025-09-25T03:09:28.405Z"}
+{"level":"info","message":"Connected to network: base (Chain ID: 8453)","service":"resolver-bot","timestamp":"2025-09-25T03:09:29.484Z"}
+{"level":"info","message":"Wallet balance: 0.000868734053874821 ETH","service":"resolver-bot","timestamp":"2025-09-25T03:09:29.487Z"}
+{"level":"info","message":"🌐 Setting up callback server on port 3002...","service":"resolver-bot","timestamp":"2025-09-25T03:09:29.488Z"}
+{"level":"info","message":"✅ Callback server running on port 3002","service":"resolver-bot","timestamp":"2025-09-25T03:09:29.495Z"}
+{"level":"info","message":"📡 Registering callback URL: http://localhost:3002/callback/order-accepted","service":"resolver-bot","timestamp":"2025-09-25T03:09:29.496Z"}
+{"level":"info","message":"✅ Callback registered successfully with backend","service":"resolver-bot","timestamp":"2025-09-25T03:09:29.511Z"}
+{"level":"info","message":"🔌 Connecting to auction server at http://localhost:5001...","service":"resolver-bot","timestamp":"2025-09-25T03:09:29.512Z"}
+{"level":"info","message":"🔌 Connected to Dutch auction server","service":"resolver-bot","timestamp":"2025-09-25T03:09:29.572Z"}
+{"level":"info","message":"Resolver Bot initialized successfully","service":"resolver-bot","timestamp":"2025-09-25T03:09:30.394Z"}
+{"level":"info","message":"Wallet Address: 0x49b6bfF6EbA59A733b3b7701396E76e0fB975998","service":"resolver-bot","timestamp":"2025-09-25T03:09:30.394Z"}
+{"level":"info","message":"Contract Address: 0x59B3b04640220F167db383296C259A452Be42b3B","service":"resolver-bot","timestamp":"2025-09-25T03:09:30.395Z"}
+{"level":"info","message":"Backend URL: http://localhost:5001","service":"resolver-bot","timestamp":"2025-09-25T03:09:30.395Z"}
+{"level":"info","message":"Callback Server: http://localhost:3002","service":"resolver-bot","timestamp":"2025-09-25T03:09:30.395Z"}
+{"level":"info","message":"RazorpayX Key ID: rzp_test_RKgUYMcFfhOJnh","service":"resolver-bot","timestamp":"2025-09-25T03:09:30.395Z"}
+{"level":"info","message":"RazorpayX configured: ✅","service":"resolver-bot","timestamp":"2025-09-25T03:09:30.395Z"}
+{"level":"info","message":"🎧 Starting to listen for OrderCreated events...","service":"resolver-bot","timestamp":"2025-09-25T03:09:30.396Z"}
+{"level":"info","message":"✅ Bot is now actively listening for events","service":"resolver-bot","timestamp":"2025-09-25T03:09:30.397Z"}
+{"level":"info","message":"🟡 Yellow Network integration enabled and connected","service":"resolver-bot","timestamp":"2025-09-25T03:09:31.177Z"}
+{"level":"info","message":"⚡ Ready for 85%+ faster crypto-to-UPI settlements","service":"resolver-bot","timestamp":"2025-09-25T03:09:31.178Z"}
+{"level":"info","message":"🔗 ClearNode: wss://clearnet.yellow.com/ws","service":"resolver-bot","timestamp":"2025-09-25T03:09:31.178Z"}
+{"level":"info","message":"🚀 Resolver Bot is now running 24x7!","service":"resolver-bot","timestamp":"2025-09-25T03:09:31.179Z"}
+{"level":"info","message":"Press Ctrl+C to stop the bot","service":"resolver-bot","timestamp":"2025-09-25T03:09:31.179Z"}
+{"level":"warn","message":"🔌 Disconnected from Dutch auction server","service":"resolver-bot","timestamp":"2025-09-25T03:10:10.725Z"}
+{"level":"error","message":"❌ Failed to connect to auction server:","service":"resolver-bot","timestamp":"2025-09-25T03:10:11.504Z"}
+{"level":"info","message":"🔌 Connected to Dutch auction server","service":"resolver-bot","timestamp":"2025-09-25T03:10:13.907Z"}
+{"level":"info","message":"\n📴 Received shutdown signal...","service":"resolver-bot","timestamp":"2025-09-25T03:10:16.145Z"}
+{"level":"info","message":"Initializing Resolver Bot...","service":"resolver-bot","timestamp":"2025-09-25T03:10:17.591Z"}
+{"level":"info","message":"Connected to network: base (Chain ID: 8453)","service":"resolver-bot","timestamp":"2025-09-25T03:10:18.462Z"}
+{"level":"info","message":"Wallet balance: 0.000868734053874821 ETH","service":"resolver-bot","timestamp":"2025-09-25T03:10:18.463Z"}
+{"level":"info","message":"🌐 Setting up callback server on port 3002...","service":"resolver-bot","timestamp":"2025-09-25T03:10:18.464Z"}
+{"level":"info","message":"✅ Callback server running on port 3002","service":"resolver-bot","timestamp":"2025-09-25T03:10:18.468Z"}
+{"level":"info","message":"📡 Registering callback URL: http://localhost:3002/callback/order-accepted","service":"resolver-bot","timestamp":"2025-09-25T03:10:18.469Z"}
+{"level":"info","message":"✅ Callback registered successfully with backend","service":"resolver-bot","timestamp":"2025-09-25T03:10:18.491Z"}
+{"level":"info","message":"🔌 Connecting to auction server at http://localhost:5001...","service":"resolver-bot","timestamp":"2025-09-25T03:10:18.491Z"}
+{"level":"info","message":"🔌 Connected to Dutch auction server","service":"resolver-bot","timestamp":"2025-09-25T03:10:18.545Z"}
+{"level":"info","message":"Resolver Bot initialized successfully","service":"resolver-bot","timestamp":"2025-09-25T03:10:19.298Z"}
+{"level":"info","message":"Wallet Address: 0x49b6bfF6EbA59A733b3b7701396E76e0fB975998","service":"resolver-bot","timestamp":"2025-09-25T03:10:19.299Z"}
+{"level":"info","message":"Contract Address: 0x59B3b04640220F167db383296C259A452Be42b3B","service":"resolver-bot","timestamp":"2025-09-25T03:10:19.299Z"}
+{"level":"info","message":"Backend URL: http://localhost:5001","service":"resolver-bot","timestamp":"2025-09-25T03:10:19.300Z"}
+{"level":"info","message":"Callback Server: http://localhost:3002","service":"resolver-bot","timestamp":"2025-09-25T03:10:19.300Z"}
+{"level":"info","message":"RazorpayX Key ID: rzp_test_RKgUYMcFfhOJnh","service":"resolver-bot","timestamp":"2025-09-25T03:10:19.300Z"}
+{"level":"info","message":"RazorpayX configured: ✅","service":"resolver-bot","timestamp":"2025-09-25T03:10:19.300Z"}
+{"level":"info","message":"🎧 Starting to listen for OrderCreated events...","service":"resolver-bot","timestamp":"2025-09-25T03:10:19.300Z"}
+{"level":"info","message":"✅ Bot is now actively listening for events","service":"resolver-bot","timestamp":"2025-09-25T03:10:19.304Z"}
+{"level":"info","message":"🟡 Yellow Network integration enabled and connected","service":"resolver-bot","timestamp":"2025-09-25T03:10:20.282Z"}
+{"level":"info","message":"⚡ Ready for 85%+ faster crypto-to-UPI settlements","service":"resolver-bot","timestamp":"2025-09-25T03:10:20.283Z"}
+{"level":"info","message":"🔗 ClearNode: wss://clearnet.yellow.com/ws","service":"resolver-bot","timestamp":"2025-09-25T03:10:20.283Z"}
+{"level":"info","message":"🚀 Resolver Bot is now running 24x7!","service":"resolver-bot","timestamp":"2025-09-25T03:10:20.283Z"}
+{"level":"info","message":"Press Ctrl+C to stop the bot","service":"resolver-bot","timestamp":"2025-09-25T03:10:20.284Z"}

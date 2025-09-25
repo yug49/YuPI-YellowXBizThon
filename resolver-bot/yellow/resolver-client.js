@@ -2,7 +2,27 @@
  * Yellow Network Resolver Client
  *
  * Integrates resolver bot with Yellow Network for instant settlements
- * Phase 3.2: Real Payment Integration
+ * Phase            } else {
+                console.log("📩 Other message type received:", message.res ? message.res[1] : "unknown");
+            }
+        } catch (error) {
+            console.error("❌ Message handling error:", error);
+        }
+    }
+
+    /**
+     * Handle assets response
+     */
+    handleAssets(message) {
+        console.log("💎 Assets received:", message.res[2].assets ? message.res[2].assets.length : 0, "assets");
+    }
+
+    /**
+     * Handle channels response
+     */
+    handleChannels(message) {
+        console.log("🔗 Channels received:", message.res[2].channels ? message.res[2].channels.length : 0, "channels");
+    }eal Payment Integration
  */
 
 const {
@@ -93,21 +113,33 @@ class YellowResolverClient {
      */
     async handleMessage(event) {
         try {
-            const message = parseRPCResponse(event.data);
-            console.log("📨 Received message:", message.method);
+            console.log("📨 Raw message from Yellow ClearNode:", event.data);
+            
+            let message;
+            try {
+                message = JSON.parse(event.data);
+            } catch (parseError) {
+                console.error("Failed to parse message as JSON:", parseError);
+                return;
+            }
 
-            switch (message.method) {
-                case RPCMethod.AuthChallenge:
-                    await this.handleAuthChallenge(message);
-                    break;
-                case RPCMethod.AuthResult:
-                    this.handleAuthResult(message);
-                    break;
-                case "app_session_update":
-                    this.handleSessionUpdate(message);
-                    break;
-                default:
-                    console.log("📝 Unhandled message:", message.method);
+            console.log("📩 Parsed message:", message);
+
+            // Check if it's an authentication challenge
+            if (message.res && message.res[1] === "auth_challenge") {
+                console.log("🔑 Received auth challenge");
+                await this.handleAuthChallenge(message);
+            } else if (message.res && message.res[1] === "auth_verify") {
+                console.log("🎯 Received auth verify result");
+                this.handleAuthResult(message);
+            } else if (message.res && message.res[1] === "assets") {
+                console.log("💎 Received assets");
+                this.handleAssets(message);
+            } else if (message.res && message.res[1] === "channels") {
+                console.log("🔗 Received channels");
+                this.handleChannels(message);
+            } else {
+                console.log("� Other message type received:", message.res ? message.res[1] : "unknown");
             }
         } catch (error) {
             console.error("❌ Message handling error:", error);

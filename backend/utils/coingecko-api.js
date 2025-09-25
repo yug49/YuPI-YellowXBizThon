@@ -1,4 +1,4 @@
-const axios = require('axios');
+const axios = require("axios");
 
 /**
  * CoinGecko API Integration for Real-time Pricing
@@ -6,20 +6,20 @@ const axios = require('axios');
  */
 class CoinGeckoAPI {
     constructor() {
-        this.baseURL = 'https://api.coingecko.com/api/v3';
+        this.baseURL = "https://api.coingecko.com/api/v3";
         this.cache = new Map();
         this.cacheTimeout = 60000; // 1 minute cache
-        
+
         // Token ID mapping for CoinGecko
         this.tokenMapping = {
-            'USDC': 'usd-coin',
-            'USDT': 'tether', 
-            'WETH': 'weth',
-            'ETH': 'ethereum',
-            'WBTC': 'wrapped-bitcoin',
-            'DAI': 'dai',
-            'MATIC': 'matic-network',
-            'BNB': 'binancecoin'
+            USDC: "usd-coin",
+            USDT: "tether",
+            WETH: "weth",
+            ETH: "ethereum",
+            WBTC: "wrapped-bitcoin",
+            DAI: "dai",
+            MATIC: "matic-network",
+            BNB: "binancecoin",
         };
     }
 
@@ -32,10 +32,12 @@ class CoinGeckoAPI {
         try {
             const cacheKey = `${tokenSymbol}_INR`;
             const cached = this.cache.get(cacheKey);
-            
+
             // Return cached price if valid
             if (cached && Date.now() - cached.timestamp < this.cacheTimeout) {
-                console.log(`💰 Using cached price for ${tokenSymbol}: ₹${cached.price}`);
+                console.log(
+                    `💰 Using cached price for ${tokenSymbol}: ₹${cached.price}`
+                );
                 return cached.price;
             }
 
@@ -44,18 +46,20 @@ class CoinGeckoAPI {
                 throw new Error(`Token ${tokenSymbol} not supported`);
             }
 
-            console.log(`🔍 Fetching live price for ${tokenSymbol} from CoinGecko...`);
-            
+            console.log(
+                `🔍 Fetching live price for ${tokenSymbol} from CoinGecko...`
+            );
+
             // Use the exact CoinGecko API format provided
             const apiUrl = `https://api.coingecko.com/api/v3/simple/price?ids=${tokenId}&vs_currencies=inr`;
             console.log(`🌐 API URL: ${apiUrl}`);
-            
+
             const response = await axios.get(apiUrl, {
                 timeout: 10000,
                 headers: {
-                    'Accept': 'application/json',
-                    'User-Agent': 'YuPI-Backend/1.0'
-                }
+                    Accept: "application/json",
+                    "User-Agent": "YuPI-Backend/1.0",
+                },
             });
 
             console.log(`📊 CoinGecko response:`, response.data);
@@ -63,35 +67,44 @@ class CoinGeckoAPI {
             // Extract price using the exact format: response.data[tokenId].inr
             const price = response.data[tokenId]?.inr;
             if (!price) {
-                throw new Error(`Price not found for ${tokenSymbol} in response: ${JSON.stringify(response.data)}`);
+                throw new Error(
+                    `Price not found for ${tokenSymbol} in response: ${JSON.stringify(
+                        response.data
+                    )}`
+                );
             }
 
             // Cache the price
             this.cache.set(cacheKey, {
                 price,
-                timestamp: Date.now()
+                timestamp: Date.now(),
             });
 
             console.log(`💰 Live price for ${tokenSymbol}: ₹${price}`);
             return price;
-
         } catch (error) {
-            console.error(`❌ Failed to fetch price for ${tokenSymbol}:`, error.message);
-            
+            console.error(
+                `❌ Failed to fetch price for ${tokenSymbol}:`,
+                error.message
+            );
+
             // Return fallback prices if API fails
             const fallbackPrices = {
-                'USDC': 88.76,  // Based on example response
-                'USDT': 88.50,
-                'ETH': 220000,  // ~$2600 = ₹220k
-                'WETH': 220000,
-                'WBTC': 5800000, // ~$70k = ₹58L
-                'DAI': 88.50,
-                'MATIC': 70,    // Current MATIC price
-                'BNB': 43000    // Current BNB price
+                USDC: 88.76, // Based on example response
+                USDT: 88.5,
+                ETH: 220000, // ~$2600 = ₹220k
+                WETH: 220000,
+                WBTC: 5800000, // ~$70k = ₹58L
+                DAI: 88.5,
+                MATIC: 70, // Current MATIC price
+                BNB: 43000, // Current BNB price
             };
 
-            const fallbackPrice = fallbackPrices[tokenSymbol.toUpperCase()] || 88.76;
-            console.log(`⚠️ Using fallback price for ${tokenSymbol}: ₹${fallbackPrice}`);
+            const fallbackPrice =
+                fallbackPrices[tokenSymbol.toUpperCase()] || 88.76;
+            console.log(
+                `⚠️ Using fallback price for ${tokenSymbol}: ₹${fallbackPrice}`
+            );
             return fallbackPrice;
         }
     }
@@ -107,7 +120,7 @@ class CoinGeckoAPI {
             const pricePerToken = await this.getTokenPriceINR(tokenSymbol);
             const totalINR = pricePerToken * tokenAmount;
             const upiAmountPaise = Math.floor(totalINR * 100); // Convert to paise
-            
+
             const result = {
                 tokenSymbol,
                 tokenAmount,
@@ -115,14 +128,13 @@ class CoinGeckoAPI {
                 totalINR: totalINR.toFixed(2),
                 upiAmountPaise,
                 formattedINR: `₹${totalINR.toFixed(2)}`,
-                timestamp: new Date().toISOString()
+                timestamp: new Date().toISOString(),
             };
 
             console.log(`🧮 Price calculation:`, result);
             return result;
-
         } catch (error) {
-            console.error('❌ Price calculation failed:', error);
+            console.error("❌ Price calculation failed:", error);
             throw error;
         }
     }
@@ -134,22 +146,24 @@ class CoinGeckoAPI {
      */
     async getMultiplePrices(tokenSymbols) {
         try {
-            const pricePromises = tokenSymbols.map(symbol => 
-                this.getTokenPriceINR(symbol).then(price => ({ symbol, price }))
+            const pricePromises = tokenSymbols.map((symbol) =>
+                this.getTokenPriceINR(symbol).then((price) => ({
+                    symbol,
+                    price,
+                }))
             );
 
             const results = await Promise.all(pricePromises);
             const priceMap = {};
-            
+
             results.forEach(({ symbol, price }) => {
                 priceMap[symbol] = price;
             });
 
-            console.log('📊 Multiple prices fetched:', priceMap);
+            console.log("📊 Multiple prices fetched:", priceMap);
             return priceMap;
-
         } catch (error) {
-            console.error('❌ Multiple price fetch failed:', error);
+            console.error("❌ Multiple price fetch failed:", error);
             throw error;
         }
     }
@@ -164,15 +178,19 @@ class CoinGeckoAPI {
     async validatePriceRange(tokenSymbol, expectedPrice, tolerance = 2) {
         try {
             const currentPrice = await this.getTokenPriceINR(tokenSymbol);
-            const priceDiff = Math.abs(currentPrice - expectedPrice) / expectedPrice * 100;
-            
-            const isValid = priceDiff <= tolerance;
-            console.log(`✅ Price validation for ${tokenSymbol}: ${isValid ? 'VALID' : 'INVALID'} (${priceDiff.toFixed(2)}% diff)`);
-            
-            return isValid;
+            const priceDiff =
+                (Math.abs(currentPrice - expectedPrice) / expectedPrice) * 100;
 
+            const isValid = priceDiff <= tolerance;
+            console.log(
+                `✅ Price validation for ${tokenSymbol}: ${
+                    isValid ? "VALID" : "INVALID"
+                } (${priceDiff.toFixed(2)}% diff)`
+            );
+
+            return isValid;
         } catch (error) {
-            console.error('❌ Price validation failed:', error);
+            console.error("❌ Price validation failed:", error);
             return false;
         }
     }
@@ -182,22 +200,24 @@ class CoinGeckoAPI {
      */
     clearCache() {
         this.cache.clear();
-        console.log('🗑️ Price cache cleared');
+        console.log("🗑️ Price cache cleared");
     }
 
     /**
      * Get cache status
      */
     getCacheStatus() {
-        const entries = Array.from(this.cache.entries()).map(([key, value]) => ({
-            token: key,
-            price: value.price,
-            age: Date.now() - value.timestamp
-        }));
+        const entries = Array.from(this.cache.entries()).map(
+            ([key, value]) => ({
+                token: key,
+                price: value.price,
+                age: Date.now() - value.timestamp,
+            })
+        );
 
         return {
             cacheSize: this.cache.size,
-            entries
+            entries,
         };
     }
 }

@@ -21,7 +21,7 @@ export default function CreateOrder({ onOrderCreated }: CreateOrderProps) {
   
   // Yellow Network integration
   const [yellowIntegration] = useState(() => new YellowWalletIntegration())
-  const [yellowStatus, setYellowStatus] = useState<any>({ connected: false, authenticated: false })
+  const [yellowStatus, setYellowStatus] = useState<{connected: boolean, authenticated: boolean, performance?: any}>({ connected: false, authenticated: false })
   const [orderYellowData, setOrderYellowData] = useState<any>(null)
   
   // Wait for transaction receipt when hash is available
@@ -226,7 +226,7 @@ export default function CreateOrder({ onOrderCreated }: CreateOrderProps) {
         console.log('📡 Event listener should now be active for this order ID')
         
         // Subscribe to Yellow Network updates
-        yellowIntegration.subscribeToOrderUpdates(actualOrderId, (orderData: any) => {
+        yellowIntegration.subscribeToOrderUpdates(actualOrderId, (orderData: unknown) => {
           console.log('🟡 Yellow Network order update:', orderData)
           setOrderYellowData(orderData)
         })
@@ -340,7 +340,7 @@ export default function CreateOrder({ onOrderCreated }: CreateOrderProps) {
             </div>
             <p className="text-sm text-blue-600">
               A resolver will accept your order and process the UPI payment to {formData.recipientUpiAddress}. 
-              You'll be notified once the payment is complete.
+              You&apos;ll be notified once the payment is complete.
             </p>
           </div>
           

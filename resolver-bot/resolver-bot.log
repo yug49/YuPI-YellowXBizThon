@@ -1,0 +1,161 @@
+
+> resolver-bot@1.0.0 start
+> node index.js
+
+[32minfo[39m: Initializing Resolver Bot... {"service":"resolver-bot","timestamp":"2025-09-25T02:33:54.052Z"}
+[32minfo[39m: Connected to network: base (Chain ID: 8453) {"service":"resolver-bot","timestamp":"2025-09-25T02:33:57.044Z"}
+[32minfo[39m: Wallet balance: 0.000079060126689062 ETH {"service":"resolver-bot","timestamp":"2025-09-25T02:33:57.045Z"}
+[32minfo[39m: 🌐 Setting up callback server on port 3002... {"service":"resolver-bot","timestamp":"2025-09-25T02:33:57.046Z"}
+[32minfo[39m: ✅ Callback server running on port 3002 {"service":"resolver-bot","timestamp":"2025-09-25T02:33:57.048Z"}
+[32minfo[39m: 📡 Registering callback URL: http://localhost:3002/callback/order-accepted {"service":"resolver-bot","timestamp":"2025-09-25T02:33:57.049Z"}
+[32minfo[39m: ✅ Callback registered successfully with backend {"service":"resolver-bot","timestamp":"2025-09-25T02:33:57.060Z"}
+[32minfo[39m: 🔌 Connecting to auction server at http://localhost:5001... {"service":"resolver-bot","timestamp":"2025-09-25T02:33:57.060Z"}
+🔑 Generated session key: 0x3aFAF2fF7365bFE0E79752BBe4BECB561034D5A3
+🟡 Connecting to Yellow Network ClearNode...
+[32minfo[39m: 🔌 Connected to Dutch auction server {"service":"resolver-bot","timestamp":"2025-09-25T02:33:57.111Z"}
+✅ Connected to Yellow ClearNode
+🔐 Authenticating with Yellow Network...
+📤 Sent auth request to Yellow ClearNode
+[32minfo[39m: Resolver Bot initialized successfully {"service":"resolver-bot","timestamp":"2025-09-25T02:33:58.575Z"}
+[32minfo[39m: Wallet Address: 0x49b6bfF6EbA59A733b3b7701396E76e0fB975998 {"service":"resolver-bot","timestamp":"2025-09-25T02:33:58.578Z"}
+[32minfo[39m: Contract Address: 0x9FA36d121DcB21934008931fB717b1d7B38dDaaB {"service":"resolver-bot","timestamp":"2025-09-25T02:33:58.579Z"}
+[32minfo[39m: Backend URL: http://localhost:5001 {"service":"resolver-bot","timestamp":"2025-09-25T02:33:58.579Z"}
+[32minfo[39m: Callback Server: http://localhost:3002 {"service":"resolver-bot","timestamp":"2025-09-25T02:33:58.579Z"}
+[32minfo[39m: RazorpayX Key ID: rzp_test_RKgUYMcFfhOJnh {"service":"resolver-bot","timestamp":"2025-09-25T02:33:58.579Z"}
+[32minfo[39m: RazorpayX configured: ✅ {"service":"resolver-bot","timestamp":"2025-09-25T02:33:58.579Z"}
+[32minfo[39m: 🎧 Starting to listen for OrderCreated events... {"service":"resolver-bot","timestamp":"2025-09-25T02:33:58.580Z"}
+[32minfo[39m: ✅ Bot is now actively listening for events {"service":"resolver-bot","timestamp":"2025-09-25T02:33:58.582Z"}
+🟡 Connecting to Yellow Network ClearNode...
+📨 Raw message from Yellow ClearNode: {"res":[0,"assets",{"assets":[{"token":"0xDB33fEC4e2994a675133320867a6439Da4A5acD8","chain_id":1,"symbol":"beatwav","decimals":18},{"token":"0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48","chain_id":1,"symbol":"usdc","decimals":6},{"token":"0x3A15461d8AE0f0Fb5fA2629e9dA7D66A794a6E37","chain_id":30,"symbol":"usdc","decimals":18},{"token":"0x45268ba6c9A0459Eda6F6fAb4E5083c61730F375","chain_id":137,"symbol":"beatwav","decimals":6},{"token":"0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359","chain_id":137,"symbol":"usdc","decimals":6},{"token":"0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619","chain_id":137,"symbol":"weth","decimals":18},{"token":"0x79A02482A880bCE3F13e09Da970dC34db4CD24d1","chain_id":480,"symbol":"usdc","decimals":6},{"token":"0x2aaBea2058b5aC2D339b163C6Ab6f2b6d53aabED","chain_id":747,"symbol":"usdc","decimals":6},{"token":"0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913","chain_id":8453,"symbol":"usdc","decimals":6},{"token":"0x176211869cA2b568f2A7D4EE941E073a821EE1ff","chain_id":59144,"symbol":"usdc","decimals":6},{"token":"0xa16148c6Ac9EDe0D82f0c52899e22a575284f131","chain_id":1440000,"symbol":"usdc","decimals":6},{"token":"0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE","chain_id":1440000,"symbol":"xrp","decimals":18}]},1758767638440],"sig":["0x4ffc9877642f9fb18f7ba94516e14b6cf7bb04fdecadb44c22fb7646ac25f9eb33d950266f7e54cb7c65bf05cf2d4c86649f0f83e811f8d5c60f24301d0201c01b"]}
+📩 Parsed message: {
+  res: [ 0, 'assets', { assets: [Array] }, 1758767638440 ],
+  sig: [
+    '0x4ffc9877642f9fb18f7ba94516e14b6cf7bb04fdecadb44c22fb7646ac25f9eb33d950266f7e54cb7c65bf05cf2d4c86649f0f83e811f8d5c60f24301d0201c01b'
+  ]
+}
+💎 Received assets: 12 assets
+📨 Raw message from Yellow ClearNode: {"res":[1758767641397,"auth_challenge",{"challenge_message":"c3dc9d8e-2262-45f4-8055-a3832fdec4d8"},1758767638840],"sig":["0xeae16199fc1902fd6db488095cf146477ce7b1888bed8f8ff4f01ed7e4a320c235c7c3b2450db4ca60eb4249db63628e62d207b2059adf574fd3be93f948e1301b"]}
+📩 Parsed message: {
+  res: [
+    1758767641397,
+    'auth_challenge',
+    { challenge_message: 'c3dc9d8e-2262-45f4-8055-a3832fdec4d8' },
+    1758767638840
+  ],
+  sig: [
+    '0xeae16199fc1902fd6db488095cf146477ce7b1888bed8f8ff4f01ed7e4a320c235c7c3b2450db4ca60eb4249db63628e62d207b2059adf574fd3be93f948e1301b'
+  ]
+}
+🔑 Received auth challenge
+🔑 Handling auth challenge from Yellow ClearNode
+🎯 Challenge data: { challenge_message: 'c3dc9d8e-2262-45f4-8055-a3832fdec4d8' }
+🔑 Challenge UUID: c3dc9d8e-2262-45f4-8055-a3832fdec4d8
+🔍 EIP-712 partial message: {
+  scope: 'console',
+  application: '0x9FA36d121DcB21934008931fB717b1d7B38dDaaB',
+  participant: '0x3aFAF2fF7365bFE0E79752BBe4BECB561034D5A3',
+  expire: '1758771238',
+  allowances: []
+}
+🔍 EIP-712 domain: { name: 'YuPI' }
+📤 Sending auth verify to Yellow ClearNode
+Auth challenge handling failed: Error: WebSocket is not open: readyState 0 (CONNECTING)
+    at WebSocket.send (/Users/shubhtastic/Documents/Yellow/NewDelhiTest/resolver-bot/node_modules/ws/lib/websocket.js:449:13)
+    at YellowResolverClient.handleAuthChallenge (/Users/shubhtastic/Documents/Yellow/NewDelhiTest/resolver-bot/yellow/resolver-client-clean.js:173:21)
+    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)
+    at async YellowResolverClient.handleMessage (/Users/shubhtastic/Documents/Yellow/NewDelhiTest/resolver-bot/yellow/resolver-client-clean.js:115:17)
+✅ Connected to Yellow ClearNode
+🔐 Authenticating with Yellow Network...
+📤 Sent auth request to Yellow ClearNode
+[32minfo[39m: 🟡 Yellow Network integration enabled and connected {"service":"resolver-bot","timestamp":"2025-09-25T02:33:59.614Z"}
+[32minfo[39m: ⚡ Ready for 85%+ faster crypto-to-UPI settlements {"service":"resolver-bot","timestamp":"2025-09-25T02:33:59.617Z"}
+[32minfo[39m: 🔗 ClearNode: wss://clearnet.yellow.com/ws {"service":"resolver-bot","timestamp":"2025-09-25T02:33:59.617Z"}
+[32minfo[39m: 🚀 Resolver Bot is now running 24x7! {"service":"resolver-bot","timestamp":"2025-09-25T02:33:59.617Z"}
+[32minfo[39m: Press Ctrl+C to stop the bot {"service":"resolver-bot","timestamp":"2025-09-25T02:33:59.617Z"}
+📨 Raw message from Yellow ClearNode: {"res":[0,"assets",{"assets":[{"token":"0xDB33fEC4e2994a675133320867a6439Da4A5acD8","chain_id":1,"symbol":"beatwav","decimals":18},{"token":"0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48","chain_id":1,"symbol":"usdc","decimals":6},{"token":"0x3A15461d8AE0f0Fb5fA2629e9dA7D66A794a6E37","chain_id":30,"symbol":"usdc","decimals":18},{"token":"0x45268ba6c9A0459Eda6F6fAb4E5083c61730F375","chain_id":137,"symbol":"beatwav","decimals":6},{"token":"0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359","chain_id":137,"symbol":"usdc","decimals":6},{"token":"0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619","chain_id":137,"symbol":"weth","decimals":18},{"token":"0x79A02482A880bCE3F13e09Da970dC34db4CD24d1","chain_id":480,"symbol":"usdc","decimals":6},{"token":"0x2aaBea2058b5aC2D339b163C6Ab6f2b6d53aabED","chain_id":747,"symbol":"usdc","decimals":6},{"token":"0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913","chain_id":8453,"symbol":"usdc","decimals":6},{"token":"0x176211869cA2b568f2A7D4EE941E073a821EE1ff","chain_id":59144,"symbol":"usdc","decimals":6},{"token":"0xa16148c6Ac9EDe0D82f0c52899e22a575284f131","chain_id":1440000,"symbol":"usdc","decimals":6},{"token":"0xEeeeeEeeeEeEeeEeEeEeeEEEeeeeEeeeeeeeEEeE","chain_id":1440000,"symbol":"xrp","decimals":18}]},1758767639507],"sig":["0x543f00bcf5368571c7ad76986654ab6b1ba558108c9841b1c114c992ba2561a2200c2f56b96d9bb7f7b466efe2cc21421d33346385d25b946a2ffd8dce6a45311b"]}
+📩 Parsed message: {
+  res: [ 0, 'assets', { assets: [Array] }, 1758767639507 ],
+  sig: [
+    '0x543f00bcf5368571c7ad76986654ab6b1ba558108c9841b1c114c992ba2561a2200c2f56b96d9bb7f7b466efe2cc21421d33346385d25b946a2ffd8dce6a45311b'
+  ]
+}
+💎 Received assets: 12 assets
+📨 Raw message from Yellow ClearNode: {"res":[1758767648854,"auth_challenge",{"challenge_message":"30abc86c-4d37-4644-83f8-ddd44cdc0444"},1758767639872],"sig":["0xbf34fd22f5613e99955c5b3e720f3a7a7717ab08231ebcfc52efd70b85cea1ad68631b85eaec14065a715f4b3995d21dca1efa669018e977b5638c3669cacc511b"]}
+📩 Parsed message: {
+  res: [
+    1758767648854,
+    'auth_challenge',
+    { challenge_message: '30abc86c-4d37-4644-83f8-ddd44cdc0444' },
+    1758767639872
+  ],
+  sig: [
+    '0xbf34fd22f5613e99955c5b3e720f3a7a7717ab08231ebcfc52efd70b85cea1ad68631b85eaec14065a715f4b3995d21dca1efa669018e977b5638c3669cacc511b'
+  ]
+}
+🔑 Received auth challenge
+🔑 Handling auth challenge from Yellow ClearNode
+🎯 Challenge data: { challenge_message: '30abc86c-4d37-4644-83f8-ddd44cdc0444' }
+🔑 Challenge UUID: 30abc86c-4d37-4644-83f8-ddd44cdc0444
+🔍 EIP-712 partial message: {
+  scope: 'console',
+  application: '0x9FA36d121DcB21934008931fB717b1d7B38dDaaB',
+  participant: '0x3aFAF2fF7365bFE0E79752BBe4BECB561034D5A3',
+  expire: '1758771239',
+  allowances: []
+}
+🔍 EIP-712 domain: { name: 'YuPI' }
+📤 Sending auth verify to Yellow ClearNode
+📨 Raw message from Yellow ClearNode: {"res":[1758767642068,"auth_verify",{"address":"0x49b6bfF6EbA59A733b3b7701396E76e0fB975998","jwt_token":"eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJwb2xpY3kiOnsid2FsbGV0IjoiMHg0OWI2YmZGNkViQTU5QTczM2IzYjc3MDEzOTZFNzZlMGZCOTc1OTk4IiwicGFydGljaXBhbnQiOiIweDNhRkFGMmZGNzM2NWJGRTBFNzk3NTJCQmU0QkVDQjU2MTAzNEQ1QTMiLCJzY29wZSI6ImNvbnNvbGUiLCJhcHBsaWNhdGlvbiI6Ill1UEkiLCJhbGxvd2FuY2UiOltdLCJleHBpcmF0aW9uIjoiMjAyNS0wOS0yNlQwMjozNDowMC4zMDYxNzgzMjdaIn0sImlzcyI6ImNsZWFybm9kZSIsImV4cCI6MTc1ODg1NDA0MCwibmJmIjoxNzU4NzY3NjQwLCJpYXQiOjE3NTg3Njc2NDB9.qOy52nKc6-2DKUlNY0hi60BLl0dnBl7iEkq1UAyZRbKxL7rgP4v1QSqb_mbw6kreSxjSbXRpHnoPIQJwQdbC3A","session_key":"0x3aFAF2fF7365bFE0E79752BBe4BECB561034D5A3","success":true},1758767640306],"sig":["0x9c5c33047a793813418c6428f3120f245cdcf8172bf333715b4d27f48d3431e516b7e69a355c6dc87721d0771d22a1b72b43038d2424ed38e42bd47e03fb4eae1c"]}
+📩 Parsed message: {
+  res: [
+    1758767642068,
+    'auth_verify',
+    {
+      address: '0x49b6bfF6EbA59A733b3b7701396E76e0fB975998',
+      jwt_token: 'eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJwb2xpY3kiOnsid2FsbGV0IjoiMHg0OWI2YmZGNkViQTU5QTczM2IzYjc3MDEzOTZFNzZlMGZCOTc1OTk4IiwicGFydGljaXBhbnQiOiIweDNhRkFGMmZGNzM2NWJGRTBFNzk3NTJCQmU0QkVDQjU2MTAzNEQ1QTMiLCJzY29wZSI6ImNvbnNvbGUiLCJhcHBsaWNhdGlvbiI6Ill1UEkiLCJhbGxvd2FuY2UiOltdLCJleHBpcmF0aW9uIjoiMjAyNS0wOS0yNlQwMjozNDowMC4zMDYxNzgzMjdaIn0sImlzcyI6ImNsZWFybm9kZSIsImV4cCI6MTc1ODg1NDA0MCwibmJmIjoxNzU4NzY3NjQwLCJpYXQiOjE3NTg3Njc2NDB9.qOy52nKc6-2DKUlNY0hi60BLl0dnBl7iEkq1UAyZRbKxL7rgP4v1QSqb_mbw6kreSxjSbXRpHnoPIQJwQdbC3A',
+      session_key: '0x3aFAF2fF7365bFE0E79752BBe4BECB561034D5A3',
+      success: true
+    },
+    1758767640306
+  ],
+  sig: [
+    '0x9c5c33047a793813418c6428f3120f245cdcf8172bf333715b4d27f48d3431e516b7e69a355c6dc87721d0771d22a1b72b43038d2424ed38e42bd47e03fb4eae1c'
+  ]
+}
+🎯 Received auth verify result
+📩 Auth result: {
+  address: '0x49b6bfF6EbA59A733b3b7701396E76e0fB975998',
+  jwt_token: 'eyJhbGciOiJFUzI1NiIsInR5cCI6IkpXVCJ9.eyJwb2xpY3kiOnsid2FsbGV0IjoiMHg0OWI2YmZGNkViQTU5QTczM2IzYjc3MDEzOTZFNzZlMGZCOTc1OTk4IiwicGFydGljaXBhbnQiOiIweDNhRkFGMmZGNzM2NWJGRTBFNzk3NTJCQmU0QkVDQjU2MTAzNEQ1QTMiLCJzY29wZSI6ImNvbnNvbGUiLCJhcHBsaWNhdGlvbiI6Ill1UEkiLCJhbGxvd2FuY2UiOltdLCJleHBpcmF0aW9uIjoiMjAyNS0wOS0yNlQwMjozNDowMC4zMDYxNzgzMjdaIn0sImlzcyI6ImNsZWFybm9kZSIsImV4cCI6MTc1ODg1NDA0MCwibmJmIjoxNzU4NzY3NjQwLCJpYXQiOjE3NTg3Njc2NDB9.qOy52nKc6-2DKUlNY0hi60BLl0dnBl7iEkq1UAyZRbKxL7rgP4v1QSqb_mbw6kreSxjSbXRpHnoPIQJwQdbC3A',
+  session_key: '0x3aFAF2fF7365bFE0E79752BBe4BECB561034D5A3',
+  success: true
+}
+✅ Yellow Network authentication successful!
+📨 Raw message from Yellow ClearNode: {"res":[0,"channels",{"channels":[{"channel_id":"0x937133afca54f0ab60754a9a54cf23649dc29604afaab23143ebb55c5bc6d6db","participant":"0x0b55c53786DefF415F771C714DA7E89CEA404e32","status":"open","token":"0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913","wallet":"","amount":"500000","chain_id":8453,"adjudicator":"0x7de4A0736Cf5740fD3Ca2F2e9cc85c9AC223eF0C","challenge":3600,"nonce":1758766896066,"version":0,"created_at":"2025-09-25T02:22:11Z","updated_at":"2025-09-25T02:22:11Z"}]},1758767640307],"sig":["0x811fd49bcf93773e720c462b2b3995f8cc0726d2f6c4ab3813b275443e53db5b67f720f9924f396cf7162721b88c3fcddf4037cd4405ceb3fc1e02d82c9ff3b11b"]}
+📩 Parsed message: {
+  res: [ 0, 'channels', { channels: [Array] }, 1758767640307 ],
+  sig: [
+    '0x811fd49bcf93773e720c462b2b3995f8cc0726d2f6c4ab3813b275443e53db5b67f720f9924f396cf7162721b88c3fcddf4037cd4405ceb3fc1e02d82c9ff3b11b'
+  ]
+}
+🔗 Received channels: 1 channels
+📨 Raw message from Yellow ClearNode: {"res":[0,"bu",{"balance_updates":[{"asset":"usdc","amount":"0.5"}]},1758767640310],"sig":["0x0dac8747920d0a7f5851bd30a3c06b196ad3b134b9899812a49863f3426b042a391d68f702e940acd4b236993324a0ec68fb0eb4f62cc82d2344bd9aa5aa39791c"]}
+📩 Parsed message: {
+  res: [ 0, 'bu', { balance_updates: [Array] }, 1758767640310 ],
+  sig: [
+    '0x0dac8747920d0a7f5851bd30a3c06b196ad3b134b9899812a49863f3426b042a391d68f702e940acd4b236993324a0ec68fb0eb4f62cc82d2344bd9aa5aa39791c'
+  ]
+}
+💰 Balance updates received: 1 updates
+🔌 Yellow WebSocket closed: 1006
+🔌 Yellow WebSocket closed: 1006
+[33mwarn[39m: 🔌 Disconnected from Dutch auction server {"service":"resolver-bot","timestamp":"2025-09-25T02:35:25.842Z"}
+[31merror[39m: ❌ Failed to connect to auction server: {"service":"resolver-bot","timestamp":"2025-09-25T02:35:26.647Z"}
+[31merror[39m: ❌ Failed to connect to auction server: {"service":"resolver-bot","timestamp":"2025-09-25T02:35:27.761Z"}
+[32minfo[39m: 🔌 Connected to Dutch auction server {"service":"resolver-bot","timestamp":"2025-09-25T02:35:29.997Z"}
+[32minfo[39m: 
+📴 Received termination signal... {"service":"resolver-bot","timestamp":"2025-09-25T02:36:37.411Z"}
+[32minfo[39m: 🛑 Stopping event listener... {"service":"resolver-bot","timestamp":"2025-09-25T02:36:37.417Z"}
+[32minfo[39m: 📴 Callback server stopped {"service":"resolver-bot","timestamp":"2025-09-25T02:36:37.431Z"}
+[33mwarn[39m: 🔌 Disconnected from Dutch auction server {"service":"resolver-bot","timestamp":"2025-09-25T02:36:37.436Z"}
+[32minfo[39m: 📴 Auction socket disconnected {"service":"resolver-bot","timestamp":"2025-09-25T02:36:37.437Z"}
+[32minfo[39m: ✅ Event listener stopped {"service":"resolver-bot","timestamp":"2025-09-25T02:36:37.437Z"}

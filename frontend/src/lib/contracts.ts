@@ -1,7 +1,7 @@
 // Contract addresses and ABIs
 export const CONTRACTS = {
   MAKER_REGISTRY: {
-    address: "0x9B8D39ED5168327d60b1EB23e5bB7F362e060b0d" as const,
+    address: "0xAC49Bd1e5877EAB0529cB9E3beaAAAF3dF67DE9f" as const,
     abi: [
       {
         "type": "constructor",
@@ -150,7 +150,7 @@ export const CONTRACTS = {
     ] as const
   },
   RESOLVER_REGISTRY: {
-    address: "0x5A6A4505e5cf78be210eb480e5aBbf7aa781768b" as const,
+    address: "0xB39F0F6eD29B4502c199171E2d483fCe05E0f5b2" as const,
     abi: [
       {
         "type": "constructor",
@@ -237,7 +237,7 @@ export const CONTRACTS = {
     ] as const
   },
   ORDER_PROTOCOL: {
-    address: "0x3433E3504A625e9382D3270F0d68F814709C8a4F" as const,
+    address: "0x59B3b04640220F167db383296C259A452Be42b3B" as const,
     abi: [
       {
         "type": "function",

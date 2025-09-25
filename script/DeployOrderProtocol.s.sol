@@ -21,8 +21,14 @@ contract DeployOrderProtocol is Script {
     {
         helperConfig = new HelperConfig();
 
-        (uint256 maxOrderTime, address relayerAddress, uint256 maxFullfillmentTime, uint16 resolverFee) =
-            helperConfig.activeNetworkConfig();
+        (
+            address adminAddress,
+            address resolverAddress,
+            address relayerAddress,
+            uint16 resolverFee,
+            uint256 maxOrderTime,
+            uint256 maxFullfillmentTime
+        ) = helperConfig.activeNetworkConfig();
 
         vm.startBroadcast();
         makerRegistry = new MakerRegistry();

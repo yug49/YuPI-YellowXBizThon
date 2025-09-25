@@ -20,15 +20,17 @@ const coinGeckoAPI = new CoinGeckoAPI();
 
 // Configuration for instant fulfillment
 const INSTANT_FULFILLMENT_CONFIG = {
-    MAIN_RESOLVER: process.env.MAIN_RESOLVER_ADDRESS || '0x667C914A5EA92bEd9703d0793E476b0Df029D90E',
+    MAIN_RESOLVER:
+        process.env.MAIN_RESOLVER_ADDRESS ||
+        "0x49b6bfF6EbA59A733b3b7701396E76e0fB975998",
     AUTO_FULFILL_DELAY: 1000, // 1 second delay for instant demo
     PRICE_TOLERANCE: 2, // 2% price tolerance
     SUPPORTED_TOKENS: {
-        'USDC': { symbol: 'USDC', decimals: 6 },
-        'USDT': { symbol: 'USDT', decimals: 6 },
-        'ETH': { symbol: 'ETH', decimals: 18 },
-        'WETH': { symbol: 'WETH', decimals: 18 },
-    }
+        USDC: { symbol: "USDC", decimals: 6 },
+        USDT: { symbol: "USDT", decimals: 6 },
+        ETH: { symbol: "ETH", decimals: 18 },
+        WETH: { symbol: "WETH", decimals: 18 },
+    },
 };
 
 /**
@@ -270,7 +272,7 @@ router.post("/", validateWalletAddress, validateOrderData, async (req, res) => {
             transactionHash,
             blockNumber,
             tokenSymbol, // Add token symbol for CoinGecko lookup
-            yellowEnabled = true // Enable Yellow Network by default
+            yellowEnabled = true, // Enable Yellow Network by default
         } = req.body;
 
         // Check if order already exists
@@ -306,7 +308,9 @@ router.post("/", validateWalletAddress, validateOrderData, async (req, res) => {
 
         await newOrder.save();
 
-        console.log(`🚀 Order created: ${orderId}, Yellow enabled: ${yellowEnabled}`);
+        console.log(
+            `🚀 Order created: ${orderId}, Yellow enabled: ${yellowEnabled}`
+        );
 
         // Auto-fulfill instantly for Yellow Network demo
         if (yellowEnabled) {
@@ -317,14 +321,18 @@ router.post("/", validateWalletAddress, validateOrderData, async (req, res) => {
 
         res.status(201).json({
             success: true,
-            message: yellowEnabled ? "Order created, instant fulfillment starting..." : "Order created successfully",
+            message: yellowEnabled
+                ? "Order created, instant fulfillment starting..."
+                : "Order created successfully",
             data: {
                 ...newOrder.toFormattedJSON(),
                 yellowNetwork: {
                     enabled: yellowEnabled,
                     instantFulfillment: yellowEnabled,
-                    expectedSettlementTime: yellowEnabled ? "~3 seconds" : "20-30 seconds traditional"
-                }
+                    expectedSettlementTime: yellowEnabled
+                        ? "~3 seconds"
+                        : "20-30 seconds traditional",
+                },
             },
         });
     } catch (error) {
@@ -401,8 +409,8 @@ router.get("/wallet/:address", validateWalletAddress, async (req, res) => {
 router.get("/health", async (req, res) => {
     try {
         // Test CoinGecko API connectivity
-        const priceTest = await coinGeckoAPI.getTokenPriceINR('USDC');
-        
+        const priceTest = await coinGeckoAPI.getTokenPriceINR("USDC");
+
         res.json({
             success: true,
             message: "Instant fulfillment system operational",
@@ -411,23 +419,25 @@ router.get("/health", async (req, res) => {
                 instantFulfillment: true,
                 dutchAuction: false, // Disabled for instant swaps
                 yellowNetwork: true,
-                livePricing: true
+                livePricing: true,
             },
             pricing: {
                 source: "CoinGecko API",
                 testPrice: `₹${priceTest} per USDC`,
-                cacheStatus: coinGeckoAPI.getCacheStatus()
+                cacheStatus: coinGeckoAPI.getCacheStatus(),
             },
             performance: {
                 settlementTime: "~3 seconds",
                 traditional: "20-30 seconds",
-                improvement: "7-10x faster"
+                improvement: "7-10x faster",
             },
             config: {
                 mainResolver: INSTANT_FULFILLMENT_CONFIG.MAIN_RESOLVER,
                 autoFulfillDelay: `${INSTANT_FULFILLMENT_CONFIG.AUTO_FULFILL_DELAY}ms`,
-                supportedTokens: Object.keys(INSTANT_FULFILLMENT_CONFIG.SUPPORTED_TOKENS)
-            }
+                supportedTokens: Object.keys(
+                    INSTANT_FULFILLMENT_CONFIG.SUPPORTED_TOKENS
+                ),
+            },
         });
     } catch (error) {
         res.status(500).json({
@@ -438,8 +448,8 @@ router.get("/health", async (req, res) => {
                 instantFulfillment: false,
                 dutchAuction: false,
                 yellowNetwork: false,
-                livePricing: false
-            }
+                livePricing: false,
+            },
         });
     }
 });
@@ -1043,28 +1053,34 @@ async function autoFulfillOrderInstantly(orderId, tokenSymbol, tokenAmount) {
 
         // Step 1: Get real-time price from CoinGecko
         const livePriceCalculation = await coinGeckoAPI.calculateUPIAmount(
-            tokenSymbol, 
+            tokenSymbol,
             parseFloat(tokenAmount)
         );
         console.log(`📊 Live price calculation:`, livePriceCalculation);
 
         // Step 2: Create Yellow Network session for instant settlement
-        const YellowSessionManager = require('../yellow/session-manager');
+        const YellowSessionManager = require("../yellow/session-manager");
         const yellowSessionManager = new YellowSessionManager();
         const sessionId = await yellowSessionManager.createTripartiteSession(
             orderId,
             INSTANT_FULFILLMENT_CONFIG.MAIN_RESOLVER,
-            { 
-                type: 'instant_fulfillment',
+            {
+                type: "instant_fulfillment",
                 pricing: livePriceCalculation,
-                timestamp: Date.now()
+                timestamp: Date.now(),
             }
         );
         console.log(`🟡 Yellow session created: ${sessionId}`);
 
         // Step 3: Auto-accept the order at live market price
-        const acceptedPriceWei = BigInt(Math.floor(livePriceCalculation.totalINR * 1e18));
-        console.log(`✅ Auto-accepting at price: ₹${livePriceCalculation.totalINR} (${acceptedPriceWei.toString()} wei)`);
+        const acceptedPriceWei = BigInt(
+            Math.floor(livePriceCalculation.totalINR * 1e18)
+        );
+        console.log(
+            `✅ Auto-accepting at price: ₹${
+                livePriceCalculation.totalINR
+            } (${acceptedPriceWei.toString()} wei)`
+        );
 
         // Use the existing accept order logic but with live pricing
         const acceptResult = await acceptOrderAutomatically(
@@ -1076,12 +1092,13 @@ async function autoFulfillOrderInstantly(orderId, tokenSymbol, tokenAmount) {
 
         if (acceptResult.success) {
             console.log(`🎉 Order ${orderId} instantly fulfilled!`);
-            console.log(`⏱️ Settlement time: ~3 seconds (vs 20-30s traditional)`);
+            console.log(
+                `⏱️ Settlement time: ~3 seconds (vs 20-30s traditional)`
+            );
             console.log(`📝 Transaction: ${acceptResult.transactionHash}`);
         } else {
             console.error(`❌ Auto-fulfillment failed: ${acceptResult.error}`);
         }
-
     } catch (error) {
         console.error(`❌ Auto-fulfillment error for order ${orderId}:`, error);
     }
@@ -1090,7 +1107,12 @@ async function autoFulfillOrderInstantly(orderId, tokenSymbol, tokenAmount) {
 /**
  * Automatically accept order with live pricing (internal function)
  */
-async function acceptOrderAutomatically(orderId, acceptedPrice, resolverAddress, yellowSessionId) {
+async function acceptOrderAutomatically(
+    orderId,
+    acceptedPrice,
+    resolverAddress,
+    yellowSessionId
+) {
     try {
         // Read order from blockchain
         const orderDetails = await getOrderFromContract(orderId);
@@ -1103,19 +1125,32 @@ async function acceptOrderAutomatically(orderId, acceptedPrice, resolverAddress,
         const orderStartPrice = BigInt(orderDetails.startPrice);
         const orderEndPrice = BigInt(orderDetails.endPrice);
 
-        if (acceptedPriceWei < orderEndPrice || acceptedPriceWei > orderStartPrice) {
-            return { 
-                success: false, 
-                error: `Price ${acceptedPrice} out of range [${orderEndPrice.toString()}, ${orderStartPrice.toString()}]`
+        if (
+            acceptedPriceWei < orderEndPrice ||
+            acceptedPriceWei > orderStartPrice
+        ) {
+            return {
+                success: false,
+                error: `Price ${acceptedPrice} out of range [${orderEndPrice.toString()}, ${orderStartPrice.toString()}]`,
             };
         }
 
         // Execute blockchain transaction
-        const rpcUrl = process.env.RPC_URL || "https://worldchain-sepolia.g.alchemy.com/v2/ydzpyjQ8ltFGNlU9MwB0q";
-        const relayerPrivateKey = process.env.RELAYER_PRIVATE_KEY || "6c1db0c528e7cac4202419249bc98d3df647076707410041e32f6e9080906bfb";
-        const contractAddress = process.env.CONTRACT_ADDRESS || "0xC3dd62f9EE406b43A2f463b3a59BEcDC1579933b";
+        const rpcUrl =
+            process.env.RPC_URL ||
+            "https://worldchain-sepolia.g.alchemy.com/v2/ydzpyjQ8ltFGNlU9MwB0q";
+        const relayerPrivateKey =
+            process.env.RELAYER_PRIVATE_KEY ||
+            "6c1db0c528e7cac4202419249bc98d3df647076707410041e32f6e9080906bfb";
+        const contractAddress =
+            process.env.CONTRACT_ADDRESS ||
+            "0xC3dd62f9EE406b43A2f463b3a59BEcDC1579933b";
 
-        const { createPublicClient, createWalletClient, http } = require("viem");
+        const {
+            createPublicClient,
+            createWalletClient,
+            http,
+        } = require("viem");
         const { privateKeyToAccount } = require("viem/accounts");
 
         // Define chain
@@ -1144,9 +1179,21 @@ async function acceptOrderAutomatically(orderId, acceptedPrice, resolverAddress,
         const contractABI = [
             {
                 inputs: [
-                    { internalType: "bytes32", name: "_orderId", type: "bytes32" },
-                    { internalType: "uint256", name: "_acceptedPrice", type: "uint256" },
-                    { internalType: "address", name: "_taker", type: "address" }
+                    {
+                        internalType: "bytes32",
+                        name: "_orderId",
+                        type: "bytes32",
+                    },
+                    {
+                        internalType: "uint256",
+                        name: "_acceptedPrice",
+                        type: "uint256",
+                    },
+                    {
+                        internalType: "address",
+                        name: "_taker",
+                        type: "address",
+                    },
                 ],
                 name: "acceptOrder",
                 outputs: [],
@@ -1164,15 +1211,16 @@ async function acceptOrderAutomatically(orderId, acceptedPrice, resolverAddress,
         });
 
         // Wait for confirmation
-        const receipt = await publicClient.waitForTransactionReceipt({ hash: txHash });
+        const receipt = await publicClient.waitForTransactionReceipt({
+            hash: txHash,
+        });
 
         return {
             success: receipt.status === "success",
             transactionHash: txHash,
             blockNumber: Number(receipt.blockNumber),
-            yellowSessionId
+            yellowSessionId,
         };
-
     } catch (error) {
         return { success: false, error: error.message };
     }
@@ -1188,7 +1236,7 @@ router.get("/:orderId/fulfillment-status", async (req, res) => {
         if (!orderDetails) {
             return res.status(404).json({
                 error: "Order not found",
-                message: "Order does not exist on blockchain"
+                message: "Order does not exist on blockchain",
             });
         }
 
@@ -1204,8 +1252,8 @@ router.get("/:orderId/fulfillment-status", async (req, res) => {
             yellowNetwork: {
                 enabled: true,
                 settlementTime: "~3 seconds",
-                traditional: "20-30 seconds"
-            }
+                traditional: "20-30 seconds",
+            },
         };
 
         // Add timing information if accepted
@@ -1213,21 +1261,23 @@ router.get("/:orderId/fulfillment-status", async (req, res) => {
             const acceptedAt = new Date(orderDetails.acceptedTime * 1000);
             const now = new Date();
             const timeSinceAccepted = now.getTime() - acceptedAt.getTime();
-            
+
             status.timing = {
                 acceptedAt: acceptedAt.toISOString(),
                 timeSinceAccepted: `${Math.round(timeSinceAccepted / 1000)}s`,
-                fulfilled: orderDetails.fullfilled
+                fulfilled: orderDetails.fullfilled,
             };
         }
 
         res.json({
             success: true,
-            data: status
+            data: status,
         });
-
     } catch (error) {
-        console.error(`Error getting fulfillment status for order ${req.params.orderId}:`, error);
+        console.error(
+            `Error getting fulfillment status for order ${req.params.orderId}:`,
+            error
+        );
         res.status(500).json({
             error: "Failed to get fulfillment status",
             message: "An internal server error occurred",
@@ -1241,10 +1291,15 @@ router.get("/live-pricing/:tokenSymbol", async (req, res) => {
         const { tokenSymbol } = req.params;
         const { amount = 1 } = req.query;
 
-        console.log(`📊 Getting live pricing for ${tokenSymbol}, amount: ${amount}`);
+        console.log(
+            `📊 Getting live pricing for ${tokenSymbol}, amount: ${amount}`
+        );
 
-        const pricing = await coinGeckoAPI.calculateUPIAmount(tokenSymbol, parseFloat(amount));
-        
+        const pricing = await coinGeckoAPI.calculateUPIAmount(
+            tokenSymbol,
+            parseFloat(amount)
+        );
+
         res.json({
             success: true,
             data: {
@@ -1253,16 +1308,18 @@ router.get("/live-pricing/:tokenSymbol", async (req, res) => {
                 pricing,
                 yellowNetwork: {
                     instantFulfillment: true,
-                    settlementTime: "~3 seconds"
-                }
-            }
+                    settlementTime: "~3 seconds",
+                },
+            },
         });
-
     } catch (error) {
-        console.error(`Error getting live pricing for ${req.params.tokenSymbol}:`, error);
+        console.error(
+            `Error getting live pricing for ${req.params.tokenSymbol}:`,
+            error
+        );
         res.status(500).json({
             error: "Failed to get live pricing",
-            message: error.message
+            message: error.message,
         });
     }
 });

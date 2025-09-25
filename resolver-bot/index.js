@@ -6,7 +6,7 @@ const axios = require("axios");
 const express = require("express");
 const { v4: uuidv4 } = require("uuid");
 const { io } = require("socket.io-client");
-const YellowResolverClient = require("./yellow/resolver-client");
+const YellowResolverClient = require("./yellow/resolver-client-clean");
 require("dotenv").config();
 
 // Configure logger
@@ -52,7 +52,7 @@ class ResolverBot {
         this.socketClient = null;
 
         // Yellow Network integration
-        this.yellowClient = new YellowResolverClient(process.env.PRIVATE_KEY);
+        this.yellowClient = null; // Will be initialized later
         this.yellowEnabled = process.env.YELLOW_ENABLED === "true";
         this.activeAuctions = new Map();
         this.auctionTimeouts = new Map();
@@ -94,6 +94,12 @@ class ResolverBot {
 
             // Setup Dutch auction socket connection
             await this.setupAuctionSocket();
+
+            // Initialize Yellow Network client after wallet is created
+            if (this.yellowEnabled) {
+                this.yellowClient = new YellowResolverClient(this.wallet);
+                await this.yellowClient.connect();
+            }
 
             logger.info("Resolver Bot initialized successfully");
             logger.info(`Wallet Address: ${this.wallet.address}`);
