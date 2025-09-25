@@ -138,7 +138,7 @@ export default function MakerDashboard() {
         <div className="bg-white rounded-lg shadow-md mb-6">
           <div className="border-b border-gray-200">
             <nav className="flex">
-              <button
+              {/* <button
                 onClick={() => setActiveTab('orders')}
                 className={`px-6 py-3 text-sm font-medium ${
                   activeTab === 'orders'
@@ -147,7 +147,7 @@ export default function MakerDashboard() {
                 }`}
               >
                 Your Orders
-              </button>
+              </button> */}
               <button
                 onClick={() => setActiveTab('create')}
                 className={`px-6 py-3 text-sm font-medium ${

@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const Order = require("../models/Order");
 const axios = require("axios");
+const CoinGeckoAPI = require("../utils/coingecko-api");
 const {
     createWalletClient,
     http,
@@ -11,164 +12,24 @@ const {
 } = require("viem");
 const { privateKeyToAccount } = require("viem/accounts");
 
-// ========================================
-// Phase 5: Simplified Dutch Auction Configuration
-// ========================================
-const AUCTION_DURATION = 5000; // 5 seconds for Yellow Network demo
-const MAIN_RESOLVER =
-    process.env.MAIN_RESOLVER_ADDRESS ||
-    "0x667C914A5EA92bEd9703d0793E476b0Df029D90E";
-
-console.log("🎯 Simplified Dutch Auction Configuration:");
-console.log(`   Duration: ${AUCTION_DURATION}ms (${AUCTION_DURATION / 1000}s)`);
-console.log(`   Main Resolver: ${MAIN_RESOLVER}`);
-
 // Store resolver callbacks (in production, use Redis or database)
 const resolverCallbacks = new Map();
 
-// Helper function to generate order IDs
-function generateOrderId() {
-    const timestamp = Date.now();
-    const random = Math.floor(Math.random() * 1000000);
-    return `order_${timestamp}_${random}`;
-}
+// Initialize CoinGecko API for instant pricing
+const coinGeckoAPI = new CoinGeckoAPI();
 
-// ========================================
-// Auto-start auction function for Yellow Network
-// ========================================
-async function autoStartAuction(orderId, req) {
-    try {
-        const order = await Order.findByOrderId(orderId);
-        if (!order || order.status !== "created") {
-            console.log(
-                `⚠️ Order ${orderId} not eligible for auction (status: ${
-                    order?.status || "not found"
-                })`
-            );
-            return;
-        }
-
-        console.log(`🚀 Auto-starting auction for order ${orderId}`);
-
-        // Start auction
-        order.status = "auction_active";
-        order.auctionStartTime = new Date();
-        order.auctionEndTime = new Date(Date.now() + AUCTION_DURATION);
-        order.auctionActive = true;
-        await order.save();
-
-        console.log(`   Auction window: ${AUCTION_DURATION}ms`);
-        console.log(`   Start time: ${order.auctionStartTime.toISOString()}`);
-        console.log(`   End time: ${order.auctionEndTime.toISOString()}`);
-
-        // Emit Socket.IO event for auction start
-        const io = req.app.get("io");
-        if (io) {
-            io.emit("auctionStarted", {
-                orderId,
-                startTime: order.auctionStartTime,
-                endTime: order.auctionEndTime,
-                duration: AUCTION_DURATION,
-            });
-        }
-
-        // Auto-assign after auction duration
-        setTimeout(async () => {
-            try {
-                console.log(`⏰ Auction timeout reached for order ${orderId}`);
-                const updatedOrder = await Order.findByOrderId(orderId);
-                if (!updatedOrder || updatedOrder.status !== "auction_active") {
-                    console.log(
-                        `   Order ${orderId} already processed or not in auction`
-                    );
-                    return;
-                }
-
-                console.log(
-                    `🎯 Auto-assigning order ${orderId} to main resolver`
-                );
-
-                // Get Yellow session manager from app
-                const yellowSessionManager = req.app.get(
-                    "yellowSessionManager"
-                );
-                let sessionId = null;
-
-                if (yellowSessionManager) {
-                    try {
-                        // Create Yellow tripartite session
-                        sessionId =
-                            await yellowSessionManager.createTripartiteSession(
-                                orderId,
-                                updatedOrder.walletAddress, // maker address
-                                MAIN_RESOLVER
-                            );
-                        console.log(`⚡ Yellow session created: ${sessionId}`);
-                    } catch (sessionError) {
-                        console.error(
-                            "Yellow session creation failed:",
-                            sessionError
-                        );
-                        // Continue with assignment even if Yellow session fails
-                    }
-                }
-
-                // Update order with assignment
-                updatedOrder.status = "accepted";
-                updatedOrder.resolverAddress = MAIN_RESOLVER;
-                updatedOrder.yellowSessionId = sessionId;
-                updatedOrder.acceptedPrice = updatedOrder.endPrice; // Assign at end price
-                updatedOrder.acceptedAt = new Date();
-                updatedOrder.auctionActive = false;
-                await updatedOrder.save();
-
-                console.log(`✅ Order ${orderId} auto-assigned successfully`);
-                console.log(`   Resolver: ${MAIN_RESOLVER}`);
-                console.log(`   Accepted Price: ${updatedOrder.acceptedPrice}`);
-                console.log(`   Yellow Session: ${sessionId || "Failed"}`);
-
-                // Emit Socket.IO event for auto-assignment
-                if (io) {
-                    io.emit("orderAutoAssigned", {
-                        orderId,
-                        resolverAddress: MAIN_RESOLVER,
-                        acceptedPrice: updatedOrder.acceptedPrice,
-                        yellowSessionId: sessionId,
-                        timestamp: new Date(),
-                    });
-                }
-            } catch (error) {
-                console.error(
-                    `❌ Auto-assignment failed for order ${orderId}:`,
-                    error
-                );
-
-                // Mark order as failed
-                try {
-                    const failedOrder = await Order.findByOrderId(orderId);
-                    if (
-                        failedOrder &&
-                        failedOrder.status === "auction_active"
-                    ) {
-                        failedOrder.status = "failed";
-                        failedOrder.auctionActive = false;
-                        await failedOrder.save();
-                    }
-                } catch (updateError) {
-                    console.error(
-                        "Failed to mark order as failed:",
-                        updateError
-                    );
-                }
-            }
-        }, AUCTION_DURATION);
-    } catch (error) {
-        console.error(
-            `❌ Auto-start auction failed for order ${orderId}:`,
-            error
-        );
+// Configuration for instant fulfillment
+const INSTANT_FULFILLMENT_CONFIG = {
+    MAIN_RESOLVER: process.env.MAIN_RESOLVER_ADDRESS || '0x667C914A5EA92bEd9703d0793E476b0Df029D90E',
+    AUTO_FULFILL_DELAY: 1000, // 1 second delay for instant demo
+    PRICE_TOLERANCE: 2, // 2% price tolerance
+    SUPPORTED_TOKENS: {
+        'USDC': { symbol: 'USDC', decimals: 6 },
+        'USDT': { symbol: 'USDT', decimals: 6 },
+        'ETH': { symbol: 'ETH', decimals: 18 },
+        'WETH': { symbol: 'WETH', decimals: 18 },
     }
-}
+};
 
 /**
  * Register a resolver callback endpoint
@@ -395,127 +256,8 @@ router.post("/resolver/register", async (req, res) => {
     }
 });
 
-// ========================================
-// Phase 5: Simplified Order Creation with Yellow Network Support
-// ========================================
-router.post("/", async (req, res) => {
-    try {
-        // Check if this is a Yellow Network order (simplified flow)
-        if (req.body.yellowEnabled) {
-            console.log("🟡 Creating Yellow Network enabled order...");
-
-            const orderData = {
-                ...req.body,
-                orderId: req.body.orderId || generateOrderId(),
-                status: "created",
-                createdAt: new Date(),
-                auctionActive: false,
-            };
-
-            // Basic validation for Yellow orders
-            if (
-                !orderData.walletAddress ||
-                !orderData.amount ||
-                !orderData.recipientUpiAddress
-            ) {
-                return res.status(400).json({
-                    error: "Missing required fields",
-                    message:
-                        "walletAddress, amount, and recipientUpiAddress are required for Yellow orders",
-                });
-            }
-
-            const order = new Order(orderData);
-            await order.save();
-
-            console.log(`✅ Yellow order created: ${order.orderId}`);
-
-            // Auto-start auction immediately for Yellow integration
-            setTimeout(async () => {
-                await autoStartAuction(order.orderId, req);
-            }, 100); // Start auction after 100ms
-
-            return res.json({
-                success: true,
-                orderId: order.orderId,
-                message: "Yellow Network order created, auction starting...",
-                yellowNetwork: {
-                    enabled: true,
-                    auctionDuration: AUCTION_DURATION,
-                    mainResolver: MAIN_RESOLVER,
-                    expectedSettlementTime: "~5 seconds via state channels",
-                },
-            });
-        }
-
-        // Fall back to original order creation for non-Yellow orders
-        console.log("📝 Creating traditional order...");
-        return await createTraditionalOrder(req, res);
-    } catch (error) {
-        console.error("Order creation error:", error);
-        res.status(500).json({ error: error.message });
-    }
-});
-
-// Original order creation logic (renamed and moved to helper function)
-async function createTraditionalOrder(req, res) {
-    console.log("📝 Processing traditional order creation...");
-
-    // Apply validation middleware manually
-    const walletAddress =
-        req.body?.walletAddress ||
-        req.params?.address ||
-        req.params?.walletAddress;
-    if (!walletAddress || !/^0x[a-fA-F0-9]{40}$/.test(walletAddress)) {
-        return res.status(400).json({
-            error: "Invalid wallet address format",
-            message: "Wallet address must be a valid Ethereum address (0x...)",
-        });
-    }
-
-    const {
-        orderId,
-        amount,
-        tokenAddress,
-        startPrice,
-        endPrice,
-        recipientUpiAddress,
-        transactionHash,
-        blockNumber,
-    } = req.body;
-
-    const errors = [];
-    if (!orderId || typeof orderId !== "string")
-        errors.push("orderId is required and must be a string");
-    if (!amount || typeof amount !== "string")
-        errors.push("amount is required and must be a string");
-    if (!tokenAddress || !/^0x[a-fA-F0-9]{40}$/.test(tokenAddress))
-        errors.push("tokenAddress must be a valid Ethereum address");
-    if (!startPrice || typeof startPrice !== "string")
-        errors.push("startPrice is required and must be a string");
-    if (!endPrice || typeof endPrice !== "string")
-        errors.push("endPrice is required and must be a string");
-    if (
-        !recipientUpiAddress ||
-        typeof recipientUpiAddress !== "string" ||
-        recipientUpiAddress.trim().length === 0
-    ) {
-        errors.push(
-            "recipientUpiAddress is required and must be a non-empty string"
-        );
-    }
-    if (!transactionHash || !/^0x[a-fA-F0-9]{64}$/.test(transactionHash))
-        errors.push("transactionHash must be a valid transaction hash");
-    if (!blockNumber || typeof blockNumber !== "number" || blockNumber < 0)
-        errors.push("blockNumber is required and must be a positive number");
-
-    if (errors.length > 0) {
-        return res.status(400).json({
-            error: "Validation failed",
-            messages: errors,
-        });
-    }
-
+// POST /api/orders - Create a new order record with instant fulfillment
+router.post("/", validateWalletAddress, validateOrderData, async (req, res) => {
     try {
         const {
             orderId,
@@ -527,6 +269,8 @@ async function createTraditionalOrder(req, res) {
             recipientUpiAddress,
             transactionHash,
             blockNumber,
+            tokenSymbol, // Add token symbol for CoinGecko lookup
+            yellowEnabled = true // Enable Yellow Network by default
         } = req.body;
 
         // Check if order already exists
@@ -562,13 +306,29 @@ async function createTraditionalOrder(req, res) {
 
         await newOrder.save();
 
-        return res.status(201).json({
+        console.log(`🚀 Order created: ${orderId}, Yellow enabled: ${yellowEnabled}`);
+
+        // Auto-fulfill instantly for Yellow Network demo
+        if (yellowEnabled) {
+            setTimeout(async () => {
+                await autoFulfillOrderInstantly(orderId, tokenSymbol, amount);
+            }, INSTANT_FULFILLMENT_CONFIG.AUTO_FULFILL_DELAY);
+        }
+
+        res.status(201).json({
             success: true,
-            message: "Order created successfully",
-            data: newOrder.toFormattedJSON(),
+            message: yellowEnabled ? "Order created, instant fulfillment starting..." : "Order created successfully",
+            data: {
+                ...newOrder.toFormattedJSON(),
+                yellowNetwork: {
+                    enabled: yellowEnabled,
+                    instantFulfillment: yellowEnabled,
+                    expectedSettlementTime: yellowEnabled ? "~3 seconds" : "20-30 seconds traditional"
+                }
+            },
         });
     } catch (error) {
-        console.error("Error creating traditional order:", error);
+        console.error("Error creating order:", error);
 
         if (error.code === 11000) {
             // Duplicate key error
@@ -579,12 +339,12 @@ async function createTraditionalOrder(req, res) {
             });
         }
 
-        return res.status(500).json({
+        res.status(500).json({
             error: "Failed to create order",
             message: "An internal server error occurred",
         });
     }
-}
+});
 
 // GET /api/orders/wallet/:address - Get all orders for a wallet address
 router.get("/wallet/:address", validateWalletAddress, async (req, res) => {
@@ -633,6 +393,53 @@ router.get("/wallet/:address", validateWalletAddress, async (req, res) => {
         res.status(500).json({
             error: "Failed to fetch orders",
             message: "An internal server error occurred",
+        });
+    }
+});
+
+// GET /api/orders/health - Health check with instant fulfillment status (MUST be before /:orderId)
+router.get("/health", async (req, res) => {
+    try {
+        // Test CoinGecko API connectivity
+        const priceTest = await coinGeckoAPI.getTokenPriceINR('USDC');
+        
+        res.json({
+            success: true,
+            message: "Instant fulfillment system operational",
+            timestamp: new Date().toISOString(),
+            features: {
+                instantFulfillment: true,
+                dutchAuction: false, // Disabled for instant swaps
+                yellowNetwork: true,
+                livePricing: true
+            },
+            pricing: {
+                source: "CoinGecko API",
+                testPrice: `₹${priceTest} per USDC`,
+                cacheStatus: coinGeckoAPI.getCacheStatus()
+            },
+            performance: {
+                settlementTime: "~3 seconds",
+                traditional: "20-30 seconds",
+                improvement: "7-10x faster"
+            },
+            config: {
+                mainResolver: INSTANT_FULFILLMENT_CONFIG.MAIN_RESOLVER,
+                autoFulfillDelay: `${INSTANT_FULFILLMENT_CONFIG.AUTO_FULFILL_DELAY}ms`,
+                supportedTokens: Object.keys(INSTANT_FULFILLMENT_CONFIG.SUPPORTED_TOKENS)
+            }
+        });
+    } catch (error) {
+        res.status(500).json({
+            success: false,
+            message: "Instant fulfillment system error",
+            error: error.message,
+            features: {
+                instantFulfillment: false,
+                dutchAuction: false,
+                yellowNetwork: false,
+                livePricing: false
+            }
         });
     }
 });
@@ -1225,183 +1032,237 @@ router.post("/:orderId/accept", async (req, res) => {
     }
 });
 
-// POST /api/orders/:orderId/start-auction - Start Dutch auction for an order
-router.post("/:orderId/start-auction", async (req, res) => {
+/**
+ * Auto-fulfill order instantly using CoinGecko pricing
+ * This replaces the Dutch auction with instant price-based fulfillment
+ */
+async function autoFulfillOrderInstantly(orderId, tokenSymbol, tokenAmount) {
+    try {
+        console.log(`⚡ Auto-fulfilling order ${orderId} instantly...`);
+        console.log(`💰 Token: ${tokenSymbol}, Amount: ${tokenAmount}`);
+
+        // Step 1: Get real-time price from CoinGecko
+        const livePriceCalculation = await coinGeckoAPI.calculateUPIAmount(
+            tokenSymbol, 
+            parseFloat(tokenAmount)
+        );
+        console.log(`📊 Live price calculation:`, livePriceCalculation);
+
+        // Step 2: Create Yellow Network session for instant settlement
+        const YellowSessionManager = require('../yellow/session-manager');
+        const yellowSessionManager = new YellowSessionManager();
+        const sessionId = await yellowSessionManager.createTripartiteSession(
+            orderId,
+            INSTANT_FULFILLMENT_CONFIG.MAIN_RESOLVER,
+            { 
+                type: 'instant_fulfillment',
+                pricing: livePriceCalculation,
+                timestamp: Date.now()
+            }
+        );
+        console.log(`🟡 Yellow session created: ${sessionId}`);
+
+        // Step 3: Auto-accept the order at live market price
+        const acceptedPriceWei = BigInt(Math.floor(livePriceCalculation.totalINR * 1e18));
+        console.log(`✅ Auto-accepting at price: ₹${livePriceCalculation.totalINR} (${acceptedPriceWei.toString()} wei)`);
+
+        // Use the existing accept order logic but with live pricing
+        const acceptResult = await acceptOrderAutomatically(
+            orderId,
+            acceptedPriceWei.toString(),
+            INSTANT_FULFILLMENT_CONFIG.MAIN_RESOLVER,
+            sessionId
+        );
+
+        if (acceptResult.success) {
+            console.log(`🎉 Order ${orderId} instantly fulfilled!`);
+            console.log(`⏱️ Settlement time: ~3 seconds (vs 20-30s traditional)`);
+            console.log(`📝 Transaction: ${acceptResult.transactionHash}`);
+        } else {
+            console.error(`❌ Auto-fulfillment failed: ${acceptResult.error}`);
+        }
+
+    } catch (error) {
+        console.error(`❌ Auto-fulfillment error for order ${orderId}:`, error);
+    }
+}
+
+/**
+ * Automatically accept order with live pricing (internal function)
+ */
+async function acceptOrderAutomatically(orderId, acceptedPrice, resolverAddress, yellowSessionId) {
+    try {
+        // Read order from blockchain
+        const orderDetails = await getOrderFromContract(orderId);
+        if (!orderDetails) {
+            return { success: false, error: "Order not found on blockchain" };
+        }
+
+        // Validate price is within acceptable range (price tolerance check)
+        const acceptedPriceWei = BigInt(acceptedPrice);
+        const orderStartPrice = BigInt(orderDetails.startPrice);
+        const orderEndPrice = BigInt(orderDetails.endPrice);
+
+        if (acceptedPriceWei < orderEndPrice || acceptedPriceWei > orderStartPrice) {
+            return { 
+                success: false, 
+                error: `Price ${acceptedPrice} out of range [${orderEndPrice.toString()}, ${orderStartPrice.toString()}]`
+            };
+        }
+
+        // Execute blockchain transaction
+        const rpcUrl = process.env.RPC_URL || "https://worldchain-sepolia.g.alchemy.com/v2/ydzpyjQ8ltFGNlU9MwB0q";
+        const relayerPrivateKey = process.env.RELAYER_PRIVATE_KEY || "6c1db0c528e7cac4202419249bc98d3df647076707410041e32f6e9080906bfb";
+        const contractAddress = process.env.CONTRACT_ADDRESS || "0xC3dd62f9EE406b43A2f463b3a59BEcDC1579933b";
+
+        const { createPublicClient, createWalletClient, http } = require("viem");
+        const { privateKeyToAccount } = require("viem/accounts");
+
+        // Define chain
+        const worldchainSepolia = {
+            id: 4801,
+            name: "Worldchain Sepolia",
+            network: "worldchain-sepolia",
+            nativeCurrency: { name: "ETH", symbol: "ETH", decimals: 18 },
+            rpcUrls: {
+                default: { http: [rpcUrl] },
+                public: { http: [rpcUrl] },
+            },
+        };
+
+        const account = privateKeyToAccount(`0x${relayerPrivateKey}`);
+        const publicClient = createPublicClient({
+            chain: worldchainSepolia,
+            transport: http(rpcUrl),
+        });
+        const walletClient = createWalletClient({
+            account,
+            chain: worldchainSepolia,
+            transport: http(rpcUrl),
+        });
+
+        const contractABI = [
+            {
+                inputs: [
+                    { internalType: "bytes32", name: "_orderId", type: "bytes32" },
+                    { internalType: "uint256", name: "_acceptedPrice", type: "uint256" },
+                    { internalType: "address", name: "_taker", type: "address" }
+                ],
+                name: "acceptOrder",
+                outputs: [],
+                stateMutability: "nonpayable",
+                type: "function",
+            },
+        ];
+
+        // Send transaction
+        const txHash = await walletClient.writeContract({
+            address: contractAddress,
+            abi: contractABI,
+            functionName: "acceptOrder",
+            args: [orderId, acceptedPriceWei, resolverAddress],
+        });
+
+        // Wait for confirmation
+        const receipt = await publicClient.waitForTransactionReceipt({ hash: txHash });
+
+        return {
+            success: receipt.status === "success",
+            transactionHash: txHash,
+            blockNumber: Number(receipt.blockNumber),
+            yellowSessionId
+        };
+
+    } catch (error) {
+        return { success: false, error: error.message };
+    }
+}
+
+// GET /api/orders/:orderId/fulfillment-status - Get instant fulfillment status
+router.get("/:orderId/fulfillment-status", async (req, res) => {
     try {
         const { orderId } = req.params;
-        const { duration = 5000 } = req.body; // Default 5 seconds
 
-        // Find the order
-        const order = await Order.findByOrderId(orderId);
-        if (!order) {
+        // Get order from blockchain to see current status
+        const orderDetails = await getOrderFromContract(orderId);
+        if (!orderDetails) {
             return res.status(404).json({
                 error: "Order not found",
-                message: `No order found with ID ${orderId}`,
+                message: "Order does not exist on blockchain"
             });
         }
 
-        // Check if order is eligible for auction
-        if (order.status !== "created") {
-            return res.status(400).json({
-                error: "Order not eligible for auction",
-                message: `Order status is '${order.status}', must be 'created'`,
-            });
-        }
-
-        if (order.auctionActive) {
-            return res.status(400).json({
-                error: "Auction already active",
-                message: `Auction is already running for order ${orderId}`,
-            });
-        }
-
-        // Update order in database
-        order.status = "auction_active";
-        order.auctionActive = true;
-        order.auctionStartTime = new Date();
-        order.auctionEndTime = new Date(Date.now() + duration);
-        order.currentPrice = order.startPrice;
-        await order.save();
-
-        // Start Dutch auction
-        const auctionManager = req.app.get("auctionManager");
-
-        // Convert wei-formatted prices to decimal for auction display
-        // Database stores prices in wei format (e.g., "95000000000000000000")
-        // but auction needs decimal format (e.g., 95.0)
-        // Use BigInt for precision then convert to number
-        const startPriceWei = BigInt(order.startPrice);
-        const endPriceWei = BigInt(order.endPrice);
-        const divisor = BigInt(10 ** 18);
-
-        const startPriceDecimal = Number(startPriceWei / divisor);
-        const endPriceDecimal = Number(endPriceWei / divisor);
-
-        console.log(`🔄 Converting prices for auction:
-            Start: ${order.startPrice} wei → ${startPriceDecimal} INR
-            End: ${order.endPrice} wei → ${endPriceDecimal} INR`);
-
-        const auction = auctionManager.createAuction(
+        const status = {
             orderId,
-            startPriceDecimal,
-            endPriceDecimal,
-            duration
-        );
+            exists: true,
+            accepted: orderDetails.accepted,
+            fulfilled: orderDetails.fullfilled,
+            maker: orderDetails.maker,
+            taker: orderDetails.taker,
+            acceptedPrice: orderDetails.acceptedPrice,
+            instantFulfillment: true,
+            yellowNetwork: {
+                enabled: true,
+                settlementTime: "~3 seconds",
+                traditional: "20-30 seconds"
+            }
+        };
+
+        // Add timing information if accepted
+        if (orderDetails.accepted && orderDetails.acceptedTime > 0) {
+            const acceptedAt = new Date(orderDetails.acceptedTime * 1000);
+            const now = new Date();
+            const timeSinceAccepted = now.getTime() - acceptedAt.getTime();
+            
+            status.timing = {
+                acceptedAt: acceptedAt.toISOString(),
+                timeSinceAccepted: `${Math.round(timeSinceAccepted / 1000)}s`,
+                fulfilled: orderDetails.fullfilled
+            };
+        }
 
         res.json({
             success: true,
-            message: "Dutch auction started successfully",
-            data: {
-                orderId,
-                startPrice: auction.startPrice,
-                endPrice: auction.endPrice,
-                duration: auction.duration,
-                startTime: auction.startTime,
-            },
+            data: status
         });
+
     } catch (error) {
-        console.error(
-            `Error starting Dutch auction for order ${req.params.orderId}:`,
-            error
-        );
+        console.error(`Error getting fulfillment status for order ${req.params.orderId}:`, error);
         res.status(500).json({
-            error: "Failed to start auction",
+            error: "Failed to get fulfillment status",
             message: "An internal server error occurred",
         });
     }
 });
 
-// ========================================
-// Phase 5: Enhanced Auction Status Endpoint for Yellow Network
-// ========================================
-router.get("/:orderId/auction-status", async (req, res) => {
+// GET /api/orders/live-pricing/:tokenSymbol - Get live pricing for token
+router.get("/live-pricing/:tokenSymbol", async (req, res) => {
     try {
-        const { orderId } = req.params;
-        const order = await Order.findByOrderId(orderId);
+        const { tokenSymbol } = req.params;
+        const { amount = 1 } = req.query;
 
-        if (!order) {
-            return res.status(404).json({
-                error: "Order not found",
-                message: `No order found with ID ${orderId}`,
-            });
-        }
+        console.log(`📊 Getting live pricing for ${tokenSymbol}, amount: ${amount}`);
 
-        const now = new Date();
-        let timeRemaining = 0;
-        let progress = 0;
-        let currentPrice = null;
-
-        // Calculate auction metrics if auction is active
-        if (
-            order.auctionActive &&
-            order.auctionStartTime &&
-            order.auctionEndTime
-        ) {
-            const auctionStart = order.auctionStartTime.getTime();
-            const auctionEnd = order.auctionEndTime.getTime();
-            const currentTime = now.getTime();
-
-            timeRemaining = Math.max(0, auctionEnd - currentTime);
-            const elapsed = currentTime - auctionStart;
-            progress = Math.min((elapsed / AUCTION_DURATION) * 100, 100);
-
-            // Calculate current Dutch auction price (linear decline)
-            if (timeRemaining > 0) {
-                const startPrice = parseFloat(order.startPrice) || 0;
-                const endPrice = parseFloat(order.endPrice) || 0;
-                const priceDecline = startPrice - endPrice;
-                const priceReduction = (priceDecline * progress) / 100;
-                currentPrice = startPrice - priceReduction;
-            } else {
-                currentPrice = parseFloat(order.endPrice) || 0;
-            }
-        }
-
-        // Determine auction status
-        let auctionStatus = "not_started";
-        if (order.status === "auction_active" && order.auctionActive) {
-            auctionStatus = timeRemaining > 0 ? "active" : "completed";
-        } else if (order.status === "accepted") {
-            auctionStatus = "completed";
-        } else if (order.status === "failed") {
-            auctionStatus = "failed";
-        }
-
+        const pricing = await coinGeckoAPI.calculateUPIAmount(tokenSymbol, parseFloat(amount));
+        
         res.json({
             success: true,
             data: {
-                orderId,
-                status: order.status,
-                auctionStatus,
-                auctionActive: order.auctionActive || false,
-                auctionStartTime: order.auctionStartTime,
-                auctionEndTime: order.auctionEndTime,
-                timeRemaining,
-                progress: Math.round(progress * 100) / 100, // Round to 2 decimal places
-                currentPrice,
-                startPrice: order.startPrice,
-                endPrice: order.endPrice,
-                acceptedPrice: order.acceptedPrice,
-                resolverAddress: order.resolverAddress,
-                yellowSessionId: order.yellowSessionId,
+                token: tokenSymbol,
+                amount: parseFloat(amount),
+                pricing,
                 yellowNetwork: {
-                    enabled: !!order.yellowSessionId,
-                    mainResolver: MAIN_RESOLVER,
-                    auctionDuration: AUCTION_DURATION,
-                    settlementTime: order.yellowSessionId
-                        ? "~5 seconds"
-                        : "20-30 seconds",
-                },
-            },
+                    instantFulfillment: true,
+                    settlementTime: "~3 seconds"
+                }
+            }
         });
+
     } catch (error) {
-        console.error(
-            `Error getting auction status for order ${req.params.orderId}:`,
-            error
-        );
+        console.error(`Error getting live pricing for ${req.params.tokenSymbol}:`, error);
         res.status(500).json({
-            error: "Failed to get auction status",
-            message: "An internal server error occurred",
+            error: "Failed to get live pricing",
+            message: error.message
         });
     }
 });

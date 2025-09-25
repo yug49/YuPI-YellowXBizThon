@@ -26,11 +26,11 @@ const orderSchema = new mongoose.Schema(
         },
         tokenAddress: {
             type: String,
-            required: false, // Not required for Yellow Network orders initially
+            required: true,
             lowercase: true,
             validate: {
                 validator: function (v) {
-                    return !v || /^0x[a-fA-F0-9]{40}$/.test(v);
+                    return /^0x[a-fA-F0-9]{40}$/.test(v);
                 },
                 message: "Invalid token address format",
             },
@@ -50,14 +50,13 @@ const orderSchema = new mongoose.Schema(
         },
         transactionHash: {
             type: String,
-            required: false, // Not required for Yellow Network orders initially
+            required: true,
             unique: true,
-            sparse: true, // Allow multiple null values
             index: true,
         },
         blockNumber: {
             type: Number,
-            required: false, // Not required for Yellow Network orders initially
+            required: true,
         },
         status: {
             type: String,
@@ -107,25 +106,6 @@ const orderSchema = new mongoose.Schema(
                 message: "Invalid acceptedBy address format",
             },
         },
-        // Yellow Network integration fields
-        resolverAddress: {
-            type: String, // Main resolver assigned to this order
-            default: null,
-            validate: {
-                validator: function (v) {
-                    return !v || /^0x[a-fA-F0-9]{40}$/.test(v);
-                },
-                message: "Invalid resolver address format",
-            },
-        },
-        yellowSessionId: {
-            type: String, // Yellow Network session ID for instant settlement
-            default: null,
-        },
-        yellowEnabled: {
-            type: Boolean, // Whether this order uses Yellow Network
-            default: false,
-        },
         createdAt: {
             type: Date,
             default: Date.now,
@@ -172,9 +152,6 @@ orderSchema.methods.toFormattedJSON = function () {
         acceptedPrice: this.acceptedPrice,
         acceptedAt: this.acceptedAt,
         acceptedBy: this.acceptedBy,
-        resolverAddress: this.resolverAddress,
-        yellowSessionId: this.yellowSessionId,
-        yellowEnabled: this.yellowEnabled,
         createdAt: this.createdAt,
         updatedAt: this.updatedAt,
     };
