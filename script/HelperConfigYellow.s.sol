@@ -24,10 +24,10 @@ contract HelperConfig is Script {
     uint256 public constant MAX_FULFILLMENT_TIME = 5 seconds; // Optimized for Yellow Network speed
     uint16 public constant RESOLVER_FEE = 100; // 1% in basis points
 
-    // Addresses from your provided configuration
-    address public constant ADMIN_ADDRESS = 0x4bB31F2B83F43B2b1d6d7b000ed54f1A9Ff60c35;
-    address public constant RESOLVER_ADDRESS = 0x49b6bfF6EbA59A733b3b7701396E76e0fB975998;
-    address public constant RELAYER_ADDRESS = 0xD43f127F91a190CB956Ec25640081a80Df72b8dc;
+    // New entities for Yellow Network deployment
+    address public constant ADMIN_ADDRESS = 0x52920d90d6014e2C66CeaF860F53b27c60B03e8B;
+    address public constant RESOLVER_ADDRESS = 0x1FCf56c6097a4fFc5668A0cEDC24787BAd563c24;
+    address public constant RELAYER_ADDRESS = 0xD3E3B2eB9ba10bF4EF93Dd94AB00BC6eF7FE9C94;
 
     /**
      * @dev Get network configuration based on chain ID

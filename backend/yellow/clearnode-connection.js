@@ -135,6 +135,9 @@ class YellowClearNodeConnection {
             if (message.res && message.res[1] === "auth_challenge") {
                 console.log("🔑 Received auth challenge");
                 await this.handleAuthChallenge(message);
+            } else if (message.res && message.res[1] === "auth_verify") {
+                console.log("✅ Received auth verify response");
+                this.handleAuthResult(message);
             } else if (message.res && message.res[1] === "auth_result") {
                 console.log("🎯 Received auth result");
                 this.handleAuthResult(message);
@@ -242,6 +245,30 @@ class YellowClearNodeConnection {
 
         // Handle specific message types
         switch (method) {
+            case "auth_verify":
+                // Handle auth_verify in generic response handler too as backup
+                if (data && data.success) {
+                    this.isAuthenticated = true;
+                    this.authToken = data.jwt_token;
+                    this.sessionKeyAddress = data.session_key;
+
+                    // Clear auth timeout
+                    if (this.authTimeout) {
+                        clearTimeout(this.authTimeout);
+                        this.authTimeout = null;
+                    }
+
+                    console.log(
+                        "✅ Yellow Network authentication successful (generic handler)"
+                    );
+                    console.log(`🔑 Session key: ${this.sessionKeyAddress}`);
+                    console.log(
+                        `🎫 JWT token received (${
+                            this.authToken ? "valid" : "invalid"
+                        })`
+                    );
+                }
+                break;
             case "assets":
                 console.log(
                     `💎 Assets received: ${

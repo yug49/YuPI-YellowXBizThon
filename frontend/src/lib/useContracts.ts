@@ -5,18 +5,18 @@ import { CONTRACTS } from './contracts'
 import { isAddress, parseUnits, formatUnits, Address } from 'viem'
 import { useMemo, useState, useCallback, useEffect } from 'react'
 
-// Common tokens for testing
+// Common tokens for Base Mainnet
 export const COMMON_TOKENS = [
   {
-    address: '0x32B9dB3C79340317b5F9A33eD2c599e63380283C' as const,
-    name: 'Mock USDC',
+    address: '0x833589fCD6eDb6E08f4c7C32D4f71b54bdA02913' as const,
+    name: 'USD Coin',
     symbol: 'USDC',
     decimals: 6
   },
   {
-    address: '0x0000000000000000000000000000000000000000' as const,
-    name: 'Native Token',
-    symbol: 'WLD',
+    address: '0x4200000000000000000000000000000000000006' as const,
+    name: 'Wrapped Ether',
+    symbol: 'WETH',
     decimals: 18
   }
 ]
@@ -349,12 +349,21 @@ export function useERC20(tokenAddress?: Address) {
   const approve = useCallback(async (amount: bigint) => {
     if (!tokenAddress) throw new Error('Token address not provided')
     
-    return writeContract({
+    console.log('Calling approve with params:', {
+      tokenAddress,
+      spender: CONTRACTS.ORDER_PROTOCOL.address,
+      amount: amount.toString()
+    })
+    
+    // In wagmi v2, writeContract returns a Promise that resolves when the transaction is submitted
+    await writeContract({
       address: tokenAddress,
       abi: CONTRACTS.ERC20.abi,
       functionName: 'approve',
       args: [CONTRACTS.ORDER_PROTOCOL.address, amount]
     })
+    
+    console.log('Approve transaction submitted to MetaMask')
   }, [tokenAddress, writeContract])
 
   return {
@@ -388,6 +397,14 @@ export function useCreateOrder() {
       const startPrice = parseUnits(orderData.startPrice, 18) // Price in INR per token, 18 decimals
       const endPrice = parseUnits(orderData.endPrice, 18) // Price in INR per token, 18 decimals
       
+      console.log('Creating order with params:', {
+        amount: amount.toString(),
+        token: orderData.token,
+        startPrice: startPrice.toString(),
+        endPrice: endPrice.toString(),
+        recipientUpiAddress: orderData.recipientUpiAddress
+      })
+
       await writeContract({
         address: CONTRACTS.ORDER_PROTOCOL.address,
         abi: CONTRACTS.ORDER_PROTOCOL.abi,
@@ -398,7 +415,8 @@ export function useCreateOrder() {
           startPrice,
           endPrice,
           orderData.recipientUpiAddress
-        ]
+        ],
+        gas: 500000n, // Explicit gas limit to help Coinbase Wallet
       })
       
       // Return hash from the hook state

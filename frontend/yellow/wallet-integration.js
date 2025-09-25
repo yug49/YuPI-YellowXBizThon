@@ -21,7 +21,9 @@ export class YellowWalletIntegration {
             const health = await response.json();
 
             return {
-                connected: health.yellowNetwork?.status === "connected",
+                connected:
+                    health.yellowNetwork?.status === "healthy" ||
+                    health.yellowNetwork?.status === "connected",
                 authenticated: health.yellowNetwork?.authenticated || false,
                 performance: {
                     traditional: "20-30s",
