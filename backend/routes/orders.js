@@ -11,8 +11,164 @@ const {
 } = require("viem");
 const { privateKeyToAccount } = require("viem/accounts");
 
+// ========================================
+// Phase 5: Simplified Dutch Auction Configuration
+// ========================================
+const AUCTION_DURATION = 5000; // 5 seconds for Yellow Network demo
+const MAIN_RESOLVER =
+    process.env.MAIN_RESOLVER_ADDRESS ||
+    "0x667C914A5EA92bEd9703d0793E476b0Df029D90E";
+
+console.log("🎯 Simplified Dutch Auction Configuration:");
+console.log(`   Duration: ${AUCTION_DURATION}ms (${AUCTION_DURATION / 1000}s)`);
+console.log(`   Main Resolver: ${MAIN_RESOLVER}`);
+
 // Store resolver callbacks (in production, use Redis or database)
 const resolverCallbacks = new Map();
+
+// Helper function to generate order IDs
+function generateOrderId() {
+    const timestamp = Date.now();
+    const random = Math.floor(Math.random() * 1000000);
+    return `order_${timestamp}_${random}`;
+}
+
+// ========================================
+// Auto-start auction function for Yellow Network
+// ========================================
+async function autoStartAuction(orderId, req) {
+    try {
+        const order = await Order.findByOrderId(orderId);
+        if (!order || order.status !== "created") {
+            console.log(
+                `⚠️ Order ${orderId} not eligible for auction (status: ${
+                    order?.status || "not found"
+                })`
+            );
+            return;
+        }
+
+        console.log(`🚀 Auto-starting auction for order ${orderId}`);
+
+        // Start auction
+        order.status = "auction_active";
+        order.auctionStartTime = new Date();
+        order.auctionEndTime = new Date(Date.now() + AUCTION_DURATION);
+        order.auctionActive = true;
+        await order.save();
+
+        console.log(`   Auction window: ${AUCTION_DURATION}ms`);
+        console.log(`   Start time: ${order.auctionStartTime.toISOString()}`);
+        console.log(`   End time: ${order.auctionEndTime.toISOString()}`);
+
+        // Emit Socket.IO event for auction start
+        const io = req.app.get("io");
+        if (io) {
+            io.emit("auctionStarted", {
+                orderId,
+                startTime: order.auctionStartTime,
+                endTime: order.auctionEndTime,
+                duration: AUCTION_DURATION,
+            });
+        }
+
+        // Auto-assign after auction duration
+        setTimeout(async () => {
+            try {
+                console.log(`⏰ Auction timeout reached for order ${orderId}`);
+                const updatedOrder = await Order.findByOrderId(orderId);
+                if (!updatedOrder || updatedOrder.status !== "auction_active") {
+                    console.log(
+                        `   Order ${orderId} already processed or not in auction`
+                    );
+                    return;
+                }
+
+                console.log(
+                    `🎯 Auto-assigning order ${orderId} to main resolver`
+                );
+
+                // Get Yellow session manager from app
+                const yellowSessionManager = req.app.get(
+                    "yellowSessionManager"
+                );
+                let sessionId = null;
+
+                if (yellowSessionManager) {
+                    try {
+                        // Create Yellow tripartite session
+                        sessionId =
+                            await yellowSessionManager.createTripartiteSession(
+                                orderId,
+                                updatedOrder.walletAddress, // maker address
+                                MAIN_RESOLVER
+                            );
+                        console.log(`⚡ Yellow session created: ${sessionId}`);
+                    } catch (sessionError) {
+                        console.error(
+                            "Yellow session creation failed:",
+                            sessionError
+                        );
+                        // Continue with assignment even if Yellow session fails
+                    }
+                }
+
+                // Update order with assignment
+                updatedOrder.status = "accepted";
+                updatedOrder.resolverAddress = MAIN_RESOLVER;
+                updatedOrder.yellowSessionId = sessionId;
+                updatedOrder.acceptedPrice = updatedOrder.endPrice; // Assign at end price
+                updatedOrder.acceptedAt = new Date();
+                updatedOrder.auctionActive = false;
+                await updatedOrder.save();
+
+                console.log(`✅ Order ${orderId} auto-assigned successfully`);
+                console.log(`   Resolver: ${MAIN_RESOLVER}`);
+                console.log(`   Accepted Price: ${updatedOrder.acceptedPrice}`);
+                console.log(`   Yellow Session: ${sessionId || "Failed"}`);
+
+                // Emit Socket.IO event for auto-assignment
+                if (io) {
+                    io.emit("orderAutoAssigned", {
+                        orderId,
+                        resolverAddress: MAIN_RESOLVER,
+                        acceptedPrice: updatedOrder.acceptedPrice,
+                        yellowSessionId: sessionId,
+                        timestamp: new Date(),
+                    });
+                }
+            } catch (error) {
+                console.error(
+                    `❌ Auto-assignment failed for order ${orderId}:`,
+                    error
+                );
+
+                // Mark order as failed
+                try {
+                    const failedOrder = await Order.findByOrderId(orderId);
+                    if (
+                        failedOrder &&
+                        failedOrder.status === "auction_active"
+                    ) {
+                        failedOrder.status = "failed";
+                        failedOrder.auctionActive = false;
+                        await failedOrder.save();
+                    }
+                } catch (updateError) {
+                    console.error(
+                        "Failed to mark order as failed:",
+                        updateError
+                    );
+                }
+            }
+        }, AUCTION_DURATION);
+    } catch (error) {
+        console.error(
+            `❌ Auto-start auction failed for order ${orderId}:`,
+            error
+        );
+    }
+}
 
 /**
  * Register a resolver callback endpoint
@@ -239,8 +395,127 @@ router.post("/resolver/register", async (req, res) => {
     }
 });
 
-// POST /api/orders - Create a new order record
-router.post("/", validateWalletAddress, validateOrderData, async (req, res) => {
+// ========================================
+// Phase 5: Simplified Order Creation with Yellow Network Support
+// ========================================
+router.post("/", async (req, res) => {
+    try {
+        // Check if this is a Yellow Network order (simplified flow)
+        if (req.body.yellowEnabled) {
+            console.log("🟡 Creating Yellow Network enabled order...");
+
+            const orderData = {
+                ...req.body,
+                orderId: req.body.orderId || generateOrderId(),
+                status: "created",
+                createdAt: new Date(),
+                auctionActive: false,
+            };
+
+            // Basic validation for Yellow orders
+            if (
+                !orderData.walletAddress ||
+                !orderData.amount ||
+                !orderData.recipientUpiAddress
+            ) {
+                return res.status(400).json({
+                    error: "Missing required fields",
+                    message:
+                        "walletAddress, amount, and recipientUpiAddress are required for Yellow orders",
+                });
+            }
+
+            const order = new Order(orderData);
+            await order.save();
+
+            console.log(`✅ Yellow order created: ${order.orderId}`);
+
+            // Auto-start auction immediately for Yellow integration
+            setTimeout(async () => {
+                await autoStartAuction(order.orderId, req);
+            }, 100); // Start auction after 100ms
+
+            return res.json({
+                success: true,
+                orderId: order.orderId,
+                message: "Yellow Network order created, auction starting...",
+                yellowNetwork: {
+                    enabled: true,
+                    auctionDuration: AUCTION_DURATION,
+                    mainResolver: MAIN_RESOLVER,
+                    expectedSettlementTime: "~5 seconds via state channels",
+                },
+            });
+        }
+
+        // Fall back to original order creation for non-Yellow orders
+        console.log("📝 Creating traditional order...");
+        return await createTraditionalOrder(req, res);
+    } catch (error) {
+        console.error("Order creation error:", error);
+        res.status(500).json({ error: error.message });
+    }
+});
+
+// Original order creation logic (renamed and moved to helper function)
+async function createTraditionalOrder(req, res) {
+    console.log("📝 Processing traditional order creation...");
+
+    // Apply validation middleware manually
+    const walletAddress =
+        req.body?.walletAddress ||
+        req.params?.address ||
+        req.params?.walletAddress;
+    if (!walletAddress || !/^0x[a-fA-F0-9]{40}$/.test(walletAddress)) {
+        return res.status(400).json({
+            error: "Invalid wallet address format",
+            message: "Wallet address must be a valid Ethereum address (0x...)",
+        });
+    }
+
+    const {
+        orderId,
+        amount,
+        tokenAddress,
+        startPrice,
+        endPrice,
+        recipientUpiAddress,
+        transactionHash,
+        blockNumber,
+    } = req.body;
+
+    const errors = [];
+    if (!orderId || typeof orderId !== "string")
+        errors.push("orderId is required and must be a string");
+    if (!amount || typeof amount !== "string")
+        errors.push("amount is required and must be a string");
+    if (!tokenAddress || !/^0x[a-fA-F0-9]{40}$/.test(tokenAddress))
+        errors.push("tokenAddress must be a valid Ethereum address");
+    if (!startPrice || typeof startPrice !== "string")
+        errors.push("startPrice is required and must be a string");
+    if (!endPrice || typeof endPrice !== "string")
+        errors.push("endPrice is required and must be a string");
+    if (
+        !recipientUpiAddress ||
+        typeof recipientUpiAddress !== "string" ||
+        recipientUpiAddress.trim().length === 0
+    ) {
+        errors.push(
+            "recipientUpiAddress is required and must be a non-empty string"
+        );
+    }
+    if (!transactionHash || !/^0x[a-fA-F0-9]{64}$/.test(transactionHash))
+        errors.push("transactionHash must be a valid transaction hash");
+    if (!blockNumber || typeof blockNumber !== "number" || blockNumber < 0)
+        errors.push("blockNumber is required and must be a positive number");
+
+    if (errors.length > 0) {
+        return res.status(400).json({
+            error: "Validation failed",
+            messages: errors,
+        });
+    }
+
     try {
         const {
             orderId,
@@ -287,13 +562,13 @@ router.post("/", validateWalletAddress, validateOrderData, async (req, res) => {
 
         await newOrder.save();
 
-        res.status(201).json({
+        return res.status(201).json({
             success: true,
             message: "Order created successfully",
             data: newOrder.toFormattedJSON(),
         });
     } catch (error) {
-        console.error("Error creating order:", error);
+        console.error("Error creating traditional order:", error);
 
         if (error.code === 11000) {
             // Duplicate key error
@@ -304,12 +579,12 @@ router.post("/", validateWalletAddress, validateOrderData, async (req, res) => {
             });
         }
 
-        res.status(500).json({
+        return res.status(500).json({
             error: "Failed to create order",
             message: "An internal server error occurred",
         });
     }
-});
+}
 
 // GET /api/orders/wallet/:address - Get all orders for a wallet address
 router.get("/wallet/:address", validateWalletAddress, async (req, res) => {
@@ -1036,40 +1311,87 @@ router.post("/:orderId/start-auction", async (req, res) => {
     }
 });
 
-// GET /api/orders/:orderId/auction-status - Get current auction status
+// ========================================
+// Phase 5: Enhanced Auction Status Endpoint for Yellow Network
+// ========================================
 router.get("/:orderId/auction-status", async (req, res) => {
     try {
         const { orderId } = req.params;
+        const order = await Order.findByOrderId(orderId);
 
-        const auctionManager = req.app.get("auctionManager");
-        const auction = auctionManager.getActiveAuction(orderId);
-
-        if (!auction) {
-            return res.json({
-                success: true,
-                data: {
-                    active: false,
-                    message: "No active auction for this order",
-                },
+        if (!order) {
+            return res.status(404).json({
+                error: "Order not found",
+                message: `No order found with ID ${orderId}`,
             });
         }
 
-        const elapsed = Date.now() - auction.startTime;
-        const progress = Math.min(elapsed / auction.duration, 1) * 100;
-        const timeRemaining = Math.max(auction.duration - elapsed, 0);
+        const now = new Date();
+        let timeRemaining = 0;
+        let progress = 0;
+        let currentPrice = null;
+
+        // Calculate auction metrics if auction is active
+        if (
+            order.auctionActive &&
+            order.auctionStartTime &&
+            order.auctionEndTime
+        ) {
+            const auctionStart = order.auctionStartTime.getTime();
+            const auctionEnd = order.auctionEndTime.getTime();
+            const currentTime = now.getTime();
+
+            timeRemaining = Math.max(0, auctionEnd - currentTime);
+            const elapsed = currentTime - auctionStart;
+            progress = Math.min((elapsed / AUCTION_DURATION) * 100, 100);
+
+            // Calculate current Dutch auction price (linear decline)
+            if (timeRemaining > 0) {
+                const startPrice = parseFloat(order.startPrice) || 0;
+                const endPrice = parseFloat(order.endPrice) || 0;
+                const priceDecline = startPrice - endPrice;
+                const priceReduction = (priceDecline * progress) / 100;
+                currentPrice = startPrice - priceReduction;
+            } else {
+                currentPrice = parseFloat(order.endPrice) || 0;
+            }
+        }
+
+        // Determine auction status
+        let auctionStatus = "not_started";
+        if (order.status === "auction_active" && order.auctionActive) {
+            auctionStatus = timeRemaining > 0 ? "active" : "completed";
+        } else if (order.status === "accepted") {
+            auctionStatus = "completed";
+        } else if (order.status === "failed") {
+            auctionStatus = "failed";
+        }
 
         res.json({
             success: true,
             data: {
-                active: auction.isActive,
-                orderId: auction.orderId,
-                startPrice: auction.startPrice,
-                endPrice: auction.endPrice,
-                currentPrice: auction.currentPrice,
-                progress,
+                orderId,
+                status: order.status,
+                auctionStatus,
+                auctionActive: order.auctionActive || false,
+                auctionStartTime: order.auctionStartTime,
+                auctionEndTime: order.auctionEndTime,
                 timeRemaining,
-                startTime: auction.startTime,
-                duration: auction.duration,
+                progress: Math.round(progress * 100) / 100, // Round to 2 decimal places
+                currentPrice,
+                startPrice: order.startPrice,
+                endPrice: order.endPrice,
+                acceptedPrice: order.acceptedPrice,
+                resolverAddress: order.resolverAddress,
+                yellowSessionId: order.yellowSessionId,
+                yellowNetwork: {
+                    enabled: !!order.yellowSessionId,
+                    mainResolver: MAIN_RESOLVER,
+                    auctionDuration: AUCTION_DURATION,
+                    settlementTime: order.yellowSessionId
+                        ? "~5 seconds"
+                        : "20-30 seconds",
+                },
             },
         });
     } catch (error) {
